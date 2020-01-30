@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { getHome } from '~/cms';
-
 export default {
     async asyncData() {
         return {};

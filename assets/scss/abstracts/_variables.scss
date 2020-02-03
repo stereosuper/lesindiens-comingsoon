@@ -1,26 +1,24 @@
 // Variables 🧮 //
 
 // Colors 🎨
-$black: #000;
+$black: #181a22;
 $white: #fff;
 
-// Fonts ✍
-// serif
-$serif-font: serif;
-
 // sans
-$sans-serif-font: sans-serif;
+$telegraf: 'Telegraf',
+sans-serif;
 
 // Texts variables 🖌
 $text-size-mobile: 13;
 $text-size-desktop: 15;
 
 // Components sizes 📏
-$header-height: 88px;
+$header-height: 109px;
+$header-height-big: 149px;
 $header-logo-height: 28px;
 
 // Grids variables 📐
-$gutter: 35px; // Space between columns = 70px
+$gutter: 10px;
 $small-gutter: 15px;
 $line-height: 22px;
 

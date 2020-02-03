@@ -1,15 +1,34 @@
 <template>
-    <div class="container">
-        <div />
+    <div class="page">
+        <Love />
+        <Slider />
     </div>
 </template>
 
 <script>
+import Love from '~/components/Love';
+import Slider from '~/components/Slider';
 export default {
-    async asyncData() {
-        return {};
+    components: {
+        Love,
+        Slider
     }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@media (min-width: $tablet) {
+    .page {
+        display: flex;
+        justify-content: space-between;
+        order: 2;
+        height: calc(100vh - #{$header-height});
+    }
+}
+
+@media (min-width: $desktop-small) {
+    .page {
+        height: calc(100vh - #{$header-height-big});
+    }
+}
+</style>

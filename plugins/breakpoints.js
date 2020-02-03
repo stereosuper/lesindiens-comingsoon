@@ -6,6 +6,7 @@ const BREAKPOINTS = {
     m: 780,
     l: 960,
     xl: 1100,
+    large: 1280,
     xxl: Infinity
 };
 

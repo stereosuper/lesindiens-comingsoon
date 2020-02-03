@@ -29,6 +29,14 @@ export default {
         isDevEnv,
         websiteUrl
     },
+    proxy: {
+        '/.netlify': {
+            target: 'http://localhost:9000',
+            pathRewrite: {
+                '^/.netlify/functions': ''
+            }
+        }
+    },
     /*
      ** Headers of the page
      */
@@ -37,7 +45,8 @@ export default {
         htmlAttrs: {
             lang: 'en'
         },
-        meta: [{
+        meta: [
+            {
                 charset: 'utf-8'
             },
             {
@@ -191,6 +200,7 @@ export default {
         '@nuxtjs/axios',
         '@nuxtjs/style-resources',
         '@nuxtjs/sitemap',
+        '@nuxtjs/proxy',
         [
             '@nuxtjs/robots',
             robotsOptions({
@@ -238,11 +248,11 @@ export default {
         /*
          ** Used to analyse chunks
          */
-        analyze: isDevEnv ?
-            {
-                analyzerMode: 'static'
-            } :
-            false,
+        analyze: isDevEnv
+            ? {
+                  analyzerMode: 'static'
+              }
+            : false,
         /*
          ** You can extend webpack config here
          */

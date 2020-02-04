@@ -213,7 +213,9 @@ export default {
      ** Axios module configuration
      ** SEE: https://axios.nuxtjs.org/options
      */
-    axios: {},
+    axios: {
+        baseURL: process.env.URL || 'http://localhost:3000'
+    },
     /*
      ** Nuxt Style Resources module configuration
      */

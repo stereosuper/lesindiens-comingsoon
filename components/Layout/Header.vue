@@ -26,17 +26,24 @@ header {
     margin-right: 20px;
 }
 
-@media (min-width: $tablet) {
+@media (min-width: $desktop-small) {
     header {
-        width: percentage(3/12);
-        padding: 45px $gutter;
+        position: fixed;
+        top: 0;
+        left: 40px;
+        align-items: center;
+        width: calc((100% - 80px) * 3 / 12);
+        height: $header-height;
+        padding: 0 $gutter;
+        background-color: $black;
     }
 }
 
-@media (min-width: $desktop-small) {
+@media (min-width: $desktop-large) {
     header {
-        width: percentage(5/12);
-        padding: 65px $gutter;
+        left: 90px;
+        width: calc((100% - 180px) * 5 / 12);
+        height: $header-height-big;
     }
 }
 </style>

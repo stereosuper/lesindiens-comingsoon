@@ -4,6 +4,7 @@
             <div class="jaquette" :style="{ backgroundImage: `url(${jaquetteUrl})` }"></div>
             <svg class="progress" height="70" width="70">
                 <circle
+                    ref="circle"
                     class="progress-circle"
                     stroke-width="1"
                     stroke="white"
@@ -11,7 +12,6 @@
                     r="34"
                     cx="36"
                     cy="36"
-                    :style="{ strokeDashoffset: dashOffset }"
                 />
             </svg>
         </div>
@@ -25,27 +25,24 @@
                 <button class="track next" @click="nextTrack">
                     <Icon name="backward" />
                 </button>
-                <button class="sound">
+                <button class="sound" @click="toggleMute">
                     <Icon v-show="mute" name="mute" />
                     <Icon v-show="!mute" name="sound" />
                 </button>
             </div>
         </div>
-        <div class="time">
-            <span>0:{{ timeLeft }}</span>
-        </div>
-
-        <audio ref="player" @timeupdate="timeUpdate">
+        <audio ref="player" @timeupdate="timeUpdate" @ended="audioEnd">
             <source :src="trackUrl" />
             Your browser does not support the audio element.
         </audio>
     </div>
 </template>
 <script>
+import { gsap } from 'gsap/all';
 export default {
     data: () => ({
         mute: true,
-        progress: 50,
+        progress: 0,
         circum: 34 * 2 * Math.PI,
         tracks: null,
         current: 0,
@@ -75,6 +72,7 @@ export default {
     watch: {
         trackUrl() {
             this.$refs.player.load();
+            this.$refs.player.muted = this.mute;
             this.$refs.player.play();
         }
     },
@@ -84,32 +82,56 @@ export default {
         this.tracks = this.reduceTracks(this.tracks);
     },
     methods: {
+        toggleMute() {
+            this.mute = !this.mute;
+            this.$refs.player.muted = this.mute;
+        },
+        audioEnd() {
+            this.nextTrack();
+        },
         timeUpdate() {
+            if (!this.$refs.player) return;
+            console.log('update');
+
             const duration = this.$refs.player.duration;
             const currentTime = this.$refs.player.currentTime;
             this.progress = (currentTime / duration) * 100;
-            const secondsLeft = parseInt(duration - currentTime);
-            this.timeLeft = ('0' + secondsLeft).slice(-2);
+            gsap.to(this.$refs.circle, {
+                strokeDashoffset: this.dashOffset,
+                duration: 0.5
+            });
         },
         nextTrack() {
+            console.log('next');
+
+            this.progress = 0;
+            // gsap.set(this.$refs.circle, {
+            //     strokeDashoffset: this.dashOffset
+            // });
             this.current = this.current === this.tracks.length - 1 ? 0 : this.current + 1;
         },
         prevTrack() {
+            this.progress = 0;
+            // gsap.set(this.$refs.circle, {
+            //     strokeDashoffset: this.dashOffset
+            // });
             this.current = this.current === 0 ? this.tracks.length - 1 : this.current - 1;
         },
         reduceTracks(tracks) {
-            return tracks.reduce((acc, track) => {
-                const trk = {
-                    url: track.track.preview_url,
-                    name: track.track.name,
-                    // COMBAK: see if need album or artist name
-                    img: track.track.album.images[0],
-                    album: track.track.album.name,
-                    artist: track.track.artists[0].name
-                };
-                acc.push(trk);
-                return acc;
-            }, []);
+            return tracks
+                .reduce((acc, track) => {
+                    const trk = {
+                        url: track.track.preview_url,
+                        name: track.track.name,
+                        // COMBAK: see if need album or artist name
+                        img: track.track.album.images[0],
+                        album: track.track.album.name,
+                        artist: track.track.artists[0].name
+                    };
+                    if (trk.url) acc.push(trk);
+                    return acc;
+                }, [])
+                .sort(() => Math.random() - 0.5);
         }
     }
 };
@@ -117,7 +139,8 @@ export default {
 <style lang="scss" scoped>
 .playlist {
     display: inline-flex;
-    min-width: percentage(3/4);
+    width: 100%;
+    padding: 0 $gutter;
 }
 .disque {
     position: relative;
@@ -245,5 +268,11 @@ export default {
     // 213.62830044410595 is the circumference of the circle (radius * 2 * PI)
     stroke-dasharray: 213.62830044410595 213.62830044410595;
     stroke-dashoffset: 213.62830044410595;
+}
+
+@media (min-width: $desktop-large) {
+    .playlist {
+        min-width: percentage(3/4);
+    }
 }
 </style>

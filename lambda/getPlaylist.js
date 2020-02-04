@@ -1,9 +1,11 @@
 require('dotenv').config();
 const axios = require('axios');
-exports.handler = async function(event, context, callback) {
+exports.handler = async function (event, context, callback) {
     const body = 'grant_type=client_credentials';
 
-    const { data } = await axios.post('https://accounts.spotify.com/api/token', body, {
+    const {
+        data
+    } = await axios.post('https://accounts.spotify.com/api/token', body, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -13,52 +15,34 @@ exports.handler = async function(event, context, callback) {
         }
     });
 
-    console.log(data['access_token']);
+    const token = data.access_token;
 
-    const token = data['access_token'];
+    try {
+        const playlist = await axios.get('https://api.spotify.com/v1/playlists/1iTX2hj62zmYJ00ZrCUAP3/tracks', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const response = {
+            token,
+            playlist: playlist.data
+        };
 
-    const playlist = await axios.get('https://api.spotify.com/v1/playlists/2rZwMbw7oLAxljzoHqI8tV/tracks', {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-
-    const response = {
-        token,
-        playlist: playlist.data
-    };
-
-    callback(null, {
-        statusCode: 200,
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(response)
-    });
-
-    // axios
-    //     .get('', {
-    //         headers: {
-    //             Authorization: 'Bearer ' + process.env.WORKABLE_TOKEN
-    //         }
-    //     })
-    //     .then(res => {
-    //         callback(null, {
-    //             statusCode: 200,
-    //             headers: {
-    //                 'Content-type': 'application/json'
-    //             },
-    //             body: JSON.stringify(res.data.jobs.filter(job => job.state === 'published').reverse())
-    //         });
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //         callback(null, {
-    //             statusCode: 404,
-    //             headers: {
-    //                 'Content-type': 'application/json'
-    //             },
-    //             body: 'non'
-    //         });
-    //     });
+        callback(null, {
+            statusCode: 200,
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(response)
+        });
+    } catch (error) {
+        console.log(error);
+        callback(null, {
+            statusCode: 200,
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(error)
+        });
+    }
 };

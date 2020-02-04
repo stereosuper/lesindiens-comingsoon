@@ -17,18 +17,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media (min-width: $tablet) {
+@media (min-width: $desktop-small) {
     .page {
         display: flex;
         justify-content: space-between;
         order: 2;
-        height: calc(100vh - #{$header-height});
-    }
-}
-
-@media (min-width: $desktop-small) {
-    .page {
-        height: calc(100vh - #{$header-height-big});
+        min-height: 100vh;
+        width: 100%;
     }
 }
 </style>

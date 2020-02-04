@@ -1,7 +1,8 @@
 <template>
     <div class="grid-system">
         <Grid v-if="isMobile && show" :col="4" :margin="10" :gutter="10" />
-        <Grid v-if="isM && show" :col="12" :margin="10" :gutter="10" />
+        <Grid v-if="isM && show" :col="6" :margin="40" :gutter="10" />
+        <Grid v-if="isL && show" :col="12" :margin="40" :gutter="10" />
         <Grid v-if="isLarge && show" :col="12" :margin="90" :gutter="10" />
     </div>
 </template>
@@ -23,7 +24,7 @@ export default {
             if (!this.$store.state.superWindow) return false;
             return (
                 this.$store.state.superWindow.width >= this.$breakpoints.list.m &&
-                this.$store.state.superWindow.width < this.$breakpoints.list.large
+                this.$store.state.superWindow.width < this.$breakpoints.list.l
             );
         },
         isL() {

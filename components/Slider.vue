@@ -113,17 +113,22 @@ export default {};
 
 @media (min-width: $tablet) {
     .slider {
-        height: 100%;
-        flex-shrink: 0;
-        width: 50%;
-        margin-right: -10px;
+        width: calc(100% + 80px);
+        margin-left: -40px;
+    }
+    .nav {
+        padding: 20px 50px;
     }
 }
 
 @media (min-width: $desktop-small) {
     .slider {
-        position: relative;
-        width: percentage(7/12);
+        position: fixed;
+        top: $header-height;
+        bottom: 0;
+        right: 0;
+        height: auto;
+        width: calc(((100% - 80px) * 7 / 12) + 30px);
     }
     .nav {
         position: absolute;
@@ -132,9 +137,9 @@ export default {};
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        height: 190px;
-        width: 190px;
-        padding: 20px 50px;
+        height: 160px;
+        width: 160px;
+        padding: 20px;
         background-color: $black;
         &::after {
             content: none;
@@ -165,8 +170,19 @@ export default {};
 
 @media (min-width: $desktop-large) {
     .slider {
-        width: calc(#{percentage(7/12)} + 90px - 10px);
-        margin-right: -90px;
+        width: calc(((100% - 180px) * 7 / 12) + 80px);
+        top: $header-height-big;
+    }
+    .nav {
+        height: 190px;
+        width: 190px;
+        padding: 20px 50px;
+    }
+}
+
+@media (min-width: $desktop-xxl) {
+    .slider {
+        width: calc(((100% - 180px) * 8 / 12) + 80px);
     }
 }
 </style>

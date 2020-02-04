@@ -39,6 +39,12 @@ export default {
 }
 @media (min-width: $tablet) {
     .content {
+        padding: 0 40px;
+    }
+}
+
+@media (min-width: $desktop-small) {
+    .content {
         flex-direction: row;
         flex-wrap: wrap;
     }

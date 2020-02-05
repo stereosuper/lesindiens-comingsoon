@@ -12,15 +12,18 @@
                 <li><h2>Digital</h2></li>
             </ul>
             <Playlist v-if="isL" />
+            <Sprite :cols="15" :rows="1" :interval="0.08" :loop="true" />
         </div>
     </div>
 </template>
 <script>
 import Playlist from '~/components/Playlist';
+import Sprite from '~/components/Sprite';
 
 export default {
     components: {
-        Playlist
+        Playlist,
+        Sprite
     },
     computed: {
         isL() {
@@ -65,7 +68,28 @@ ul {
     margin-bottom: 50px;
 }
 
+.sprite {
+    position: absolute;
+    bottom: -80px;
+    right: -30px;
+    width: 340px;
+    height: 340px;
+    background-repeat: no-repeat;
+    background-size: 1500% auto;
+    z-index: -1;
+}
+
+.inner-love {
+    position: relative;
+}
+
 @media (min-width: $tablet) {
+    .sprite {
+        width: 400px;
+        height: 400px;
+        right: 0px;
+        bottom: -100px;
+    }
     .container {
         padding: 0;
     }
@@ -90,6 +114,12 @@ ul {
 }
 
 @media (min-width: $desktop-small) {
+    .sprite {
+        width: 350px;
+        height: 350px;
+        right: -50px;
+        bottom: 40px;
+    }
     .love {
         display: flex;
         align-items: center;
@@ -107,6 +137,12 @@ ul {
 }
 
 @media (min-width: $desktop-large) {
+    .sprite {
+        width: 510px;
+        height: 510px;
+        right: -180px;
+        bottom: 0px;
+    }
     .love {
         width: percentage(4/12);
         padding-top: $header-height-big;

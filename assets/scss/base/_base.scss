@@ -53,4 +53,11 @@ img {
 a {
     text-decoration: none;
     color: $white;
+    transition: color 0.2s ease-in-out;
+
+    &:hover,
+    &:focus {
+        color: #787878;
+        outline: none;
+    }
 }

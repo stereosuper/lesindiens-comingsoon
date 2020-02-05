@@ -13,7 +13,7 @@ export default {
         Grid
     },
     data: () => ({
-        show: true
+        show: false
     }),
     computed: {
         isMobile() {

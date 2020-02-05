@@ -204,6 +204,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+button {
+    &:focus {
+        outline: none;
+    }
+}
 .playlist {
     display: inline-flex;
     width: 100%;
@@ -308,6 +313,7 @@ export default {
         border-radius: 50%;
         background-color: #323336;
         z-index: -1;
+        transition: background-color 0.2s ease-in-out;
     }
     &.prev {
         margin-right: 8px;
@@ -315,6 +321,12 @@ export default {
     &.next {
         .icon {
             transform: rotate(-180deg);
+        }
+    }
+    &:hover,
+    &:focus {
+        &::after {
+            background-color: #44464a;
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="playlist">
         <div class="disque">
-            <div class="jaquette" :style="{ backgroundImage: `url(${jaquetteUrl})` }"></div>
+            <div ref="jaquette" class="jaquette" :style="{ backgroundImage: `url(${jaquetteUrl})` }"></div>
             <svg class="progress" height="70" width="70">
                 <circle
                     ref="circle"
@@ -31,10 +31,14 @@
                 </button>
             </div>
         </div>
-        <audio ref="player" @timeupdate="timeUpdate" @ended="audioEnd">
-            <source :src="trackUrl" />
-            Your browser does not support the audio element.
-        </audio>
+        <audio
+            ref="player"
+            :muted="mute"
+            :src="trackUrl"
+            @timeupdate="timeUpdate"
+            @ended="audioEnd"
+            @canplay="readyToPlay"
+        ></audio>
     </div>
 </template>
 <script>
@@ -46,7 +50,11 @@ export default {
         circum: 34 * 2 * Math.PI,
         tracks: null,
         current: 0,
-        timeLeft: '00'
+        fake: false,
+        fakeTween: null,
+        skeudTween: null,
+        youNeedToStopTheFake: false,
+        stoped: true
     }),
     computed: {
         dashOffset() {
@@ -58,9 +66,6 @@ export default {
         trackName() {
             return this.tracks ? this.tracks[this.current].name : '';
         },
-        albumName() {
-            return this.tracks ? this.tracks[this.current].album : '';
-        },
         artistName() {
             return this.tracks ? this.tracks[this.current].artist : '';
         },
@@ -70,10 +75,15 @@ export default {
     },
 
     watch: {
+        dashOffset(d) {
+            gsap.to(this.$refs.circle, {
+                strokeDashoffset: d,
+                duration: 0.5
+            });
+        },
         trackUrl() {
-            this.$refs.player.load();
+            this.stoped = false;
             this.$refs.player.muted = this.mute;
-            this.$refs.player.play();
         }
     },
     async created() {
@@ -82,7 +92,55 @@ export default {
         this.tracks = this.reduceTracks(this.tracks);
     },
     methods: {
+        letsFakeIt() {
+            this.fake = true;
+            this.fakeLoop();
+        },
+        fakeLoop() {
+            this.fakeTween = gsap.to(this, {
+                duration: 30,
+                progress: 100,
+                ease: 'none',
+                onComplete: () => {
+                    this.nextTrack();
+                }
+            });
+        },
+        stopTheFake() {
+            this.fake = false;
+            this.fakeTween.kill();
+            this.$refs.player.currentTime = (this.$refs.player.duration * this.progress) / 100;
+            this.$refs.player.play();
+        },
+        readyToPlay() {
+            if (this.trackUrl === '') return;
+            const playPromise = this.$refs.player.play() || Promise.reject('');
+            playPromise
+                .then(() => {
+                    this.launchSkeud();
+                })
+                .catch(() => {
+                    // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
+                    this.$refs.player.play().catch(e => {
+                        this.letsFakeIt();
+                    });
+                });
+        },
+        launchSkeud() {
+            this.skeudTween = gsap.fromTo(
+                this.$refs.jaquette,
+                {
+                    rotation: 0
+                },
+                {
+                    duration: this.$refs.player.duration,
+                    rotation: 1800,
+                    ease: 'none'
+                }
+            );
+        },
         toggleMute() {
+            if (this.fake) this.stopTheFake();
             this.mute = !this.mute;
             this.$refs.player.muted = this.mute;
         },
@@ -90,32 +148,39 @@ export default {
             this.nextTrack();
         },
         timeUpdate() {
-            if (!this.$refs.player) return;
-            console.log('update');
-
+            if (!this.$refs.player || this.fake || this.stoped) return;
             const duration = this.$refs.player.duration;
             const currentTime = this.$refs.player.currentTime;
             this.progress = (currentTime / duration) * 100;
-            gsap.to(this.$refs.circle, {
-                strokeDashoffset: this.dashOffset,
-                duration: 0.5
-            });
         },
         nextTrack() {
-            console.log('next');
-
+            this.stoped = true;
+            this.$refs.player.pause();
+            // this.$refs.player.currentTime = 0;
+            if (this.skeudTween) this.skeudTween.kill();
+            if (this.fake) this.fakeTween.kill();
             this.progress = 0;
-            // gsap.set(this.$refs.circle, {
-            //     strokeDashoffset: this.dashOffset
-            // });
-            this.current = this.current === this.tracks.length - 1 ? 0 : this.current + 1;
+            this.skeudTween = gsap.to(this.$refs.jaquette, {
+                duration: 0.3,
+                rotation: '-=360',
+                onComplete: () => {
+                    this.current = this.current === this.tracks.length - 1 ? 0 : this.current + 1;
+                }
+            });
         },
         prevTrack() {
+            this.stoped = true;
+            this.$refs.player.pause();
+            if (this.skeudTween) this.skeudTween.kill();
+            if (this.fake) this.fakeTween.kill();
             this.progress = 0;
-            // gsap.set(this.$refs.circle, {
-            //     strokeDashoffset: this.dashOffset
-            // });
-            this.current = this.current === 0 ? this.tracks.length - 1 : this.current - 1;
+            this.skeudTween = gsap.to(this.$refs.jaquette, {
+                duration: 0.3,
+                rotation: '-=360',
+                onComplete: () => {
+                    this.current = this.current === 0 ? this.tracks.length - 1 : this.current - 1;
+                }
+            });
         },
         reduceTracks(tracks) {
             return tracks
@@ -123,12 +188,14 @@ export default {
                     const trk = {
                         url: track.track.preview_url,
                         name: track.track.name,
-                        // COMBAK: see if need album or artist name
                         img: track.track.album.images[0],
-                        album: track.track.album.name,
                         artist: track.track.artists[0].name
                     };
-                    if (trk.url) acc.push(trk);
+                    if (trk.url) {
+                        acc.push(trk);
+                    } else {
+                        console.log('NO PREVIEW URL:', trk.artist, '-', trk.name);
+                    }
                     return acc;
                 }, [])
                 .sort(() => Math.random() - 0.5);

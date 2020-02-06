@@ -17,7 +17,7 @@
         </div>
         <div class="data">
             <span>{{ trackName }}</span>
-            <span>{{ artistName }}</span>
+            <span class="artist">{{ artistName }}</span>
             <div class="controls">
                 <button class="track prev" @click="prevTrack">
                     <Icon name="backward" />
@@ -347,6 +347,10 @@ button {
     // 213.62830044410595 is the circumference of the circle (radius * 2 * PI)
     stroke-dasharray: 213.62830044410595 213.62830044410595;
     stroke-dashoffset: 213.62830044410595;
+}
+
+.artist {
+    color: #787878;
 }
 
 @media (min-width: $desktop-large) {

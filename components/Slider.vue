@@ -1,7 +1,7 @@
 <template>
     <div ref="slider" class="slider" @mouseenter="imIn" @mouseleave="imOut" @mousemove="mouseMove">
         <div class="images">
-            <img src="img/one.jpg" alt="" />
+            <img src="img/winpharma.jpg" alt="" />
         </div>
         <div class="nav">
             <div class="inner-nav">

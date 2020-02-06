@@ -49,8 +49,8 @@ export default {
         getMousePos(e) {
             if (!this.hasMouse || !this.over) return;
             const p = {
-                x: e.clientX - this.rect.left,
-                y: e.clientY - this.rect.top
+                x: e.clientX - this.rect.left - 23 / 2,
+                y: e.clientY - this.rect.top - 20 / 2
             };
             this.pos = p;
         },

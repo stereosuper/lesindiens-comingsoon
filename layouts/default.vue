@@ -24,9 +24,16 @@ export default {
     },
     mounted() {
         this.$stereorepo.superWindow.initializeWindow(this.$store);
+        window.addEventListener('mousemove', this.firstMouseMove, false);
         this.$nextTick(() => {
             this.$store.commit('setLoading', false);
         });
+    },
+    methods: {
+        firstMouseMove() {
+            this.$store.commit('setHasMouse', true);
+            window.removeEventListener('mousemove', this.firstMouseMove, false);
+        }
     }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="container love">
         <div class="inner-love">
-            <h1>On vous aime déjà&nbsp;!</h1>
+            <LoveText />
             <p>
                 Nous sommes Les Indiens, une équipe de créatifs passionnés. Ce qui nous anime : la diversité de nos
                 clients, les belles rencontres et les défis réussis. Fun fact, nous avons déjà travaillé pour un love
@@ -19,11 +19,13 @@
 <script>
 import Playlist from '~/components/Playlist';
 import Sprite from '~/components/Sprite';
+import LoveText from '~/components/LoveText.vue';
 
 export default {
     components: {
         Playlist,
-        Sprite
+        Sprite,
+        LoveText
     },
     computed: {
         isL() {
@@ -34,12 +36,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-h1 {
-    font-size: 5rem;
-    font-weight: 200;
-    line-height: 1.1;
-    margin-bottom: 30px;
-}
 p {
     margin-bottom: 20px;
     font-size: 1.4rem;
@@ -93,12 +89,6 @@ ul {
     .container {
         padding: 0;
     }
-
-    h1 {
-        font-size: 7rem;
-        padding: 0 $gutter;
-        width: 50%;
-    }
     p {
         width: percentage(5/6);
         padding: 0 $gutter;
@@ -129,7 +119,6 @@ ul {
         padding-top: $header-height;
         padding-bottom: 20px;
     }
-    h1,
     p,
     ul {
         width: 100%;

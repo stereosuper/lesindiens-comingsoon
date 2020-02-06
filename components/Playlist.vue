@@ -113,7 +113,7 @@ export default {
             this.$refs.player.play();
         },
         readyToPlay() {
-            if (this.trackUrl === '') return;
+            if (this.trackUrl === '' || !this.$refs.player) return;
             const playPromise = this.$refs.player.play() || Promise.reject('');
             playPromise
                 .then(() => {

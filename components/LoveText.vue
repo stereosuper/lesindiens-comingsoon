@@ -38,8 +38,18 @@ export default {
         timeout: null
     }),
     computed: {
+        resizing() {
+            if (!this.$store.state.superWindow) return false;
+            return this.$store.state.superWindow.resizing;
+        },
         hasMouse() {
-            return this.$store.state.hasMouse;
+            return this.$store.state.cursor.hasMouse;
+        }
+    },
+    watch: {
+        resizing(r) {
+            if (r) return;
+            this.rect = this.$refs.area.getBoundingClientRect();
         }
     },
     methods: {

@@ -4,7 +4,7 @@
 @import '~@stereorepo/sac/src/scss/transition';
 
 // Timing functions
-$ease-out-timing-function: cubic-bezier(0, 0, 0, 0);
+$ease-out-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
 $ease-in-timing-function: cubic-bezier(0, 0, 0, 0);
 $ease-in-out-timing-function: cubic-bezier(0, 0, 0, 0);
 

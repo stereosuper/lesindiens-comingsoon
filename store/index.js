@@ -1,6 +1,5 @@
 export const state = () => ({
-    loading: true,
-    hasMouse: false
+    loading: true
 });
 
 // export const getters = () => {};
@@ -8,9 +7,6 @@ export const state = () => ({
 export const mutations = {
     setLoading(state, loading) {
         state.loading = loading;
-    },
-    setHasMouse(state, hasMouse) {
-        state.hasMouse = hasMouse;
     }
 };
 

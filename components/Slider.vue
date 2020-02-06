@@ -1,5 +1,5 @@
 <template>
-    <div class="slider">
+    <div ref="slider" class="slider" @mouseenter="imIn" @mouseleave="imOut" @mousemove="mouseMove">
         <div class="images">
             <img src="img/one.jpg" alt="" />
         </div>
@@ -23,7 +23,59 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    data: () => ({
+        rect: null,
+        over: false
+    }),
+    computed: {
+        resizing() {
+            if (!this.$store.state.superWindow) return false;
+            return this.$store.state.superWindow.resizing;
+        },
+        mousePos() {
+            return this.$store.state.cursor.mousePos;
+        },
+        showCursor() {
+            return this.$store.state.cursor.showCursor;
+        },
+        iconDirection() {
+            return this.$store.state.cursor.iconDirection;
+        }
+    },
+    watch: {
+        resizing(r) {
+            if (r) return;
+            this.rect = this.$refs.slider.getBoundingClientRect();
+        }
+    },
+    mounted() {
+        this.rect = this.$refs.slider.getBoundingClientRect();
+    },
+    methods: {
+        imIn() {
+            this.over = true;
+            this.setDirection();
+            this.$store.commit('cursor/setShowCursor', true);
+        },
+        imOut() {
+            this.over = false;
+            this.$store.commit('cursor/setShowCursor', false);
+        },
+        mouseMove() {
+            if (!this.showCursor) this.$store.commit('cursor/setShowCursor', true);
+            this.over = true;
+            this.setDirection();
+        },
+        setDirection() {
+            if (!this.over) return;
+            const posFromElement = this.mousePos.x - this.rect.left;
+            const side = posFromElement - this.rect.width / 2;
+            const direction = side < 0 ? 'left' : 'right';
+            if (this.iconDirection != direction) this.$store.commit('cursor/setIconDirection', direction);
+        }
+    }
+};
 </script>
 <style lang="scss" scoped>
 .slider {
@@ -33,6 +85,7 @@ export default {};
     margin-left: -$gutter;
     height: 530px;
     max-height: 100vh;
+    cursor: none;
 }
 .infos {
     display: flex;

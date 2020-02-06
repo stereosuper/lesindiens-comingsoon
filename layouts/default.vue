@@ -6,6 +6,7 @@
             <Footer />
         </div>
         <GridSystem />
+        <CustomCursor />
         <Svgs />
     </div>
 </template>
@@ -15,24 +16,29 @@ import Header from '~/components/Layout/Header';
 import Footer from '~/components/Layout/Footer';
 import Svgs from '~/components/Layout/Svgs';
 import GridSystem from '~/components/Layout/GridSystem';
+import CustomCursor from '~/components/Layout/CustomCursor';
 export default {
     components: {
         Header,
         Footer,
         Svgs,
-        GridSystem
+        GridSystem,
+        CustomCursor
     },
     mounted() {
         this.$stereorepo.superWindow.initializeWindow(this.$store);
-        window.addEventListener('mousemove', this.firstMouseMove, false);
+        window.addEventListener('mousemove', this.mouseMove, false);
         this.$nextTick(() => {
             this.$store.commit('setLoading', false);
         });
     },
     methods: {
-        firstMouseMove() {
-            this.$store.commit('setHasMouse', true);
-            window.removeEventListener('mousemove', this.firstMouseMove, false);
+        mouseMove(e) {
+            if (!this.$store.state.cursor.hasMouse) this.$store.commit('cursor/setHasMouse', true);
+            this.$store.commit('cursor/setMousePos', {
+                x: e.clientX,
+                y: e.clientY
+            });
         }
     }
 };

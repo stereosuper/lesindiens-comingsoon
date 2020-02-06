@@ -7,6 +7,12 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
     >
         <defs>
+            <symbol id="icon-arrow" viewBox="0 0 71 32">
+                <title>arrow</title>
+                <path
+                    d="M41.17 3.78v-3.78l29.941 12.277v5.387l-29.938 12.274v-3.776l23.111-9.508h-64.284v-3.556h64.018l-22.848-9.319z"
+                />
+            </symbol>
             <symbol id="icon-backward" viewBox="0 0 32 32">
                 <title>backward</title>
                 <path d="M7.040 30.933v-11.947l23.893 11.947v-29.867l-23.893 11.947v-11.947h-5.973v29.867h5.973z" />

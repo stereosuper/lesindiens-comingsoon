@@ -95,6 +95,7 @@ export default {
         letsFakeIt() {
             this.fake = true;
             this.fakeLoop();
+            this.launchSkeud();
         },
         fakeLoop() {
             this.fakeTween = gsap.to(this, {
@@ -117,11 +118,15 @@ export default {
             const playPromise = this.$refs.player.play() || Promise.reject('');
             playPromise
                 .then(() => {
+                    if (this.fake) this.fake = false;
+                    if (this.skeudTween && this.skeudTween.progress() < 1) return;
                     this.launchSkeud();
                 })
                 .catch(() => {
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
                     this.$refs.player.play().catch(e => {
+                        console.log('bonjour');
+
                         this.letsFakeIt();
                     });
                 });
@@ -148,6 +153,8 @@ export default {
             this.nextTrack();
         },
         timeUpdate() {
+            console.log(this.$refs.player.currentTime);
+
             if (!this.$refs.player || this.fake || this.stoped) return;
             const duration = this.$refs.player.duration;
             const currentTime = this.$refs.player.currentTime;

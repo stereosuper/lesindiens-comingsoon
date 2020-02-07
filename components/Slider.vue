@@ -21,13 +21,18 @@
         </div>
         <div class="nav">
             <div ref="nav" class="inner-nav">
-                <span class="category">{{ slides[current].cat }}</span>
-                <a v-if="slides[current].url" :href="slides[current].url" class="infos">
-                    <span class="name">{{ slides[current].title }}</span>
-                    <Icon name="link" />
+                <a v-if="slides[current].url" :href="slides[current].url" class="wrapper-infos">
+                    <span class="category">{{ slides[current].cat }}</span>
+                    <div class="infos">
+                        <span class="name">{{ slides[current].title }}</span>
+                        <Icon name="link" />
+                    </div>
                 </a>
-                <div v-else class="infos">
-                    <span class="name">{{ slides[current].title }}</span>
+                <div v-else class="wrapper-infos">
+                    <span class="category">{{ slides[current].cat }}</span>
+                    <div class="infos">
+                        <span class="name">{{ slides[current].title }}</span>
+                    </div>
                 </div>
                 <div class="arrows">
                     <button class="prev" @click="changeSlide('left')">
@@ -77,6 +82,16 @@ export default {
         }
     },
     watch: {
+        isL(is) {
+            if (!is) {
+                if (this.autoPlayTimeout) clearRequestTimeout(this.autoPlayTimeout);
+                this.$store.commit('cursor/setShowCursor', false);
+            } else {
+                this.$nextTick(() => {
+                    this.timeoutAutoplay();
+                });
+            }
+        },
         resizing(r) {
             if (r) return;
             this.rect = this.$refs.slider.getBoundingClientRect();
@@ -162,16 +177,18 @@ export default {
             animNav.play();
         },
         imIn() {
+            if (!this.isL) return;
             this.over = true;
             this.setDirection();
             this.$store.commit('cursor/setShowCursor', true);
         },
         imOut() {
+            if (!this.isL) return;
             this.over = false;
             this.$store.commit('cursor/setShowCursor', false);
         },
         mouseMove() {
-            if (!this.showCursor) this.$store.commit('cursor/setShowCursor', true);
+            if (!this.showCursor && this.isL) this.$store.commit('cursor/setShowCursor', true);
             this.over = true;
             this.setDirection();
         },
@@ -183,6 +200,7 @@ export default {
             if (this.iconDirection != direction) this.$store.commit('cursor/setIconDirection', direction);
         },
         timeoutAutoplay() {
+            if (!this.isL) return;
             EventBus.$emit('startTimer');
             this.autoPlayTimeout = requestTimeout(() => {
                 EventBus.$emit('reset');
@@ -310,15 +328,18 @@ export default {
     height: 530px;
     max-height: 100vh;
 }
-.infos {
+.wrapper-infos {
     display: flex;
     flex-direction: column;
-    width: 50%;
+}
+.infos {
+    display: flex;
+    align-items: center;
     .icon {
         width: 14px;
         height: 14px;
-        margin-top: 5px;
         color: currentColor;
+        margin-left: 5px;
     }
 }
 .nav {
@@ -341,13 +362,13 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
 }
 
 .images {
     position: relative;
     flex: 0 1 100%;
     overflow: hidden;
-    cursor: none;
 }
 
 .image {
@@ -388,6 +409,9 @@ export default {
                 transform-origin: 50% 50%;
                 transform: rotate(180deg);
             }
+        }
+        &:focus {
+            outline: none;
         }
     }
     .icon {
@@ -461,14 +485,19 @@ export default {
     .infos {
         width: auto;
         align-items: flex-end;
+        flex-direction: column;
         .icon {
             margin-top: 15px;
+            margin-left: 0;
             width: 17px;
             height: 17px;
         }
     }
     .arrows {
         display: none;
+    }
+    .images {
+        cursor: none;
     }
 }
 

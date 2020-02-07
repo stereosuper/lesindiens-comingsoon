@@ -1,5 +1,8 @@
+import slides from '~/static/slides/slides.json';
+
 export const state = () => ({
-    loading: true
+    loading: true,
+    slides: slides.slides
 });
 
 // export const getters = () => {};

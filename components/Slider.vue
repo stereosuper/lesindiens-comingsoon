@@ -1,7 +1,15 @@
 <template>
-    <div ref="slider" class="slider" @mouseenter="imIn" @mouseleave="imOut" @mousemove="mouseMove">
-        <div class="images">
-            <img src="img/winpharma.jpg" alt="" />
+    <div class="slider">
+        <div ref="slider" class="images" @mouseenter="imIn" @mouseleave="imOut" @mousemove="mouseMove">
+            <div
+                v-for="s in slides"
+                :key="s.title"
+                class="image"
+                :class="{ center: s.color }"
+                :style="{ backgroundColor: s.color }"
+            >
+                <img :src="`slides/${s.image}`" :alt="s.title" />
+            </div>
         </div>
         <div class="nav">
             <div class="inner-nav">
@@ -29,6 +37,9 @@ export default {
         over: false
     }),
     computed: {
+        slides() {
+            return this.$store.state.slides;
+        },
         resizing() {
             if (!this.$store.state.superWindow) return false;
             return this.$store.state.superWindow.resizing;
@@ -85,7 +96,6 @@ export default {
     margin-left: -$gutter;
     height: 530px;
     max-height: 100vh;
-    cursor: none;
 }
 .infos {
     display: flex;
@@ -120,13 +130,28 @@ export default {
 }
 
 .images {
+    position: relative;
     flex: 0 1 100%;
     overflow: hidden;
+    cursor: none;
+}
+
+.image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     img {
         object-fit: cover;
         max-width: none;
         width: 100%;
         height: 100%;
+    }
+    &.center {
+        img {
+            object-fit: contain;
+        }
     }
 }
 

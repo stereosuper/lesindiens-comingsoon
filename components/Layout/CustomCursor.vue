@@ -25,6 +25,8 @@
 </template>
 <script>
 import { gsap } from 'gsap/all';
+import { EventBus } from '~/assets/js/global';
+
 export default {
     data: () => ({
         cursorRect: null,
@@ -93,19 +95,40 @@ export default {
         this.cursorRect = this.$refs.cursor.getBoundingClientRect();
         this.iconRect = this.$refs.icon.getBoundingClientRect();
         this.progressRect = this.$refs.progress.getBoundingClientRect();
-        this.launchWait();
+        EventBus.$on('startTimer', this.launchWait);
+        EventBus.$on('reset', this.reset);
+        EventBus.$on('back', this.back);
     },
     methods: {
-        launchWait() {
-            this.progress = 0;
-            gsap.to(this, {
-                progress: 100,
-                duration: 5,
-                ease: 'none',
-                onComplete: () => {
-                    this.launchWait();
-                }
+        back() {
+            gsap.killTweensOf(this.$refs.circle);
+            gsap.to(this.$refs.circle, {
+                strokeDashoffset: this.circum,
+                duration: 1,
+                ease: 'power4.inOut'
             });
+        },
+        reset() {
+            gsap.killTweensOf(this.$refs.circle);
+            gsap.to(this.$refs.circle, {
+                strokeDashoffset: -this.circum,
+                duration: 1,
+                ease: 'power4.inOut'
+            });
+        },
+        launchWait() {
+            gsap.killTweensOf(this.$refs.circle);
+            gsap.fromTo(
+                this.$refs.circle,
+                {
+                    strokeDashoffset: this.circum
+                },
+                {
+                    strokeDashoffset: 0,
+                    duration: this.$store.state.timerSlide / 1000,
+                    ease: 'none'
+                }
+            );
         }
     }
 };
@@ -119,6 +142,7 @@ export default {
     user-select: none;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    z-index: 10;
     &.show {
         opacity: 1;
     }

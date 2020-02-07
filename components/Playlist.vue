@@ -16,7 +16,7 @@
             </svg>
         </div>
         <div class="data">
-            <span>{{ trackName }}</span>
+            <span class="name">{{ trackName }}</span>
             <span class="artist">{{ artistName }}</span>
             <div class="controls">
                 <button class="track prev" @click="prevTrack">
@@ -242,6 +242,12 @@ button {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
+    overflow: hidden;
+    > span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 }
 
 .jaquette {
@@ -358,7 +364,7 @@ button {
 
 @media (min-width: $desktop-large) {
     .playlist {
-        min-width: percentage(3/4);
+        width: percentage(3/4);
     }
 }
 </style>

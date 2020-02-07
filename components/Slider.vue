@@ -1,8 +1,16 @@
 <template>
     <div class="slider">
-        <div ref="slider" class="images" @mouseenter="imIn" @mouseleave="imOut" @mousemove="mouseMove">
+        <div
+            ref="slider"
+            class="images"
+            @click="clickCursor(iconDirection)"
+            @mouseenter="imIn"
+            @mouseleave="imOut"
+            @mousemove="mouseMove"
+        >
             <div
                 v-for="s in slides"
+                ref="image"
                 :key="s.title"
                 class="image"
                 :class="{ center: s.color }"
@@ -12,17 +20,20 @@
             </div>
         </div>
         <div class="nav">
-            <div class="inner-nav">
-                <span class="category">Web design</span>
-                <div class="infos">
-                    <span class="name">Informatique Banque Populaire</span>
+            <div ref="nav" class="inner-nav">
+                <span class="category">{{ slides[current].cat }}</span>
+                <a v-if="slides[current].url" :href="slides[current].url" class="infos">
+                    <span class="name">{{ slides[current].title }}</span>
                     <Icon name="link" />
+                </a>
+                <div v-else class="infos">
+                    <span class="name">{{ slides[current].title }}</span>
                 </div>
                 <div class="arrows">
-                    <button class="prev">
+                    <button class="prev" @click="changeSlide('left')">
                         <Icon name="chevron" />
                     </button>
-                    <button class="next">
+                    <button class="next" @click="changeSlide('right')">
                         <Icon name="chevron" />
                     </button>
                 </div>
@@ -31,12 +42,23 @@
     </div>
 </template>
 <script>
+import { gsap } from 'gsap/all';
+import { EventBus } from '~/assets/js/global';
+import { requestTimeout, clearRequestTimeout } from '@stereorepo/sac';
 export default {
     data: () => ({
         rect: null,
-        over: false
+        over: false,
+        current: 0,
+        totalNumber: 0,
+        transitionning: false,
+        autoPlayTimeout: null
     }),
     computed: {
+        isL() {
+            if (!this.$store.state.superWindow) return false;
+            return this.$store.state.superWindow.width >= this.$breakpoints.list.l;
+        },
         slides() {
             return this.$store.state.slides;
         },
@@ -60,10 +82,85 @@ export default {
             this.rect = this.$refs.slider.getBoundingClientRect();
         }
     },
+    created() {
+        this.totalNumber = this.slides.length - 1;
+    },
     mounted() {
         this.rect = this.$refs.slider.getBoundingClientRect();
+        this.initSlider();
     },
     methods: {
+        clickCursor(d) {
+            if (!this.isL) return;
+            this.changeSlide(d);
+        },
+        initSlider() {
+            const img = this.$refs.image[this.current];
+            gsap.set(img, {
+                opacity: 1
+            });
+            gsap.set(img.querySelector('img'), {
+                scale: 1
+            });
+
+            const txts = [
+                this.$refs.nav.querySelector('.icon-link'),
+                this.$refs.nav.querySelector('.name'),
+                this.$refs.nav.querySelector('.category')
+            ].filter(el => el);
+
+            gsap.set(txts, {
+                opacity: 1,
+                y: 0
+            });
+            this.$nextTick(() => {
+                this.timeoutAutoplay();
+            });
+        },
+        changeSlide(direction) {
+            if (this.autoPlayTimeout) clearRequestTimeout(this.autoPlayTimeout);
+            if (this.transitionning) return;
+            EventBus.$emit('back');
+            this.transitionning = true;
+            if (direction === 'left') {
+                this.prevSlide();
+            } else {
+                this.nextSlide();
+            }
+        },
+        manageZindex(nextIndex) {
+            gsap.set(this.$refs.image, {
+                zIndex: 0
+            });
+
+            gsap.set(this.$refs.image[nextIndex], {
+                zIndex: 1
+            });
+        },
+        nextSlide() {
+            const nextIndex = this.current + 1 > this.totalNumber ? 0 : this.current + 1;
+            this.manageZindex(nextIndex);
+            const nextImage = this.$refs.image[nextIndex];
+            const nextInner = nextImage.querySelector('img');
+            const currentImage = this.$refs.image[this.current];
+            const currentInner = currentImage.querySelector('img');
+            const anim = this.slideTimeline(currentInner, currentImage, nextInner, nextImage, nextIndex, 1);
+            const animNav = this.navTimeline();
+            anim.play();
+            animNav.play();
+        },
+        prevSlide() {
+            const nextIndex = this.current - 1 < 0 ? this.totalNumber : this.current - 1;
+            this.manageZindex(nextIndex);
+            const nextImage = this.$refs.image[nextIndex];
+            const nextInner = nextImage.querySelector('img');
+            const currentImage = this.$refs.image[this.current];
+            const currentInner = currentImage.querySelector('img');
+            const anim = this.slideTimeline(currentInner, currentImage, nextInner, nextImage, nextIndex, -1);
+            const animNav = this.navTimeline();
+            anim.play();
+            animNav.play();
+        },
         imIn() {
             this.over = true;
             this.setDirection();
@@ -84,6 +181,122 @@ export default {
             const side = posFromElement - this.rect.width / 2;
             const direction = side < 0 ? 'left' : 'right';
             if (this.iconDirection != direction) this.$store.commit('cursor/setIconDirection', direction);
+        },
+        timeoutAutoplay() {
+            EventBus.$emit('startTimer');
+            this.autoPlayTimeout = requestTimeout(() => {
+                EventBus.$emit('reset');
+                this.transitionning = true;
+                this.nextSlide();
+            }, this.$store.state.timerSlide);
+        },
+        afterAnim(nextIndex) {
+            this.current = nextIndex;
+            this.$nextTick(() => {
+                const nav = this.navTimeline('in');
+                nav.play();
+            });
+        },
+        navTimeline(dir = 'out') {
+            const title = this.$refs.nav.querySelector('.name');
+            const cat = this.$refs.nav.querySelector('.category');
+            const link = this.$refs.nav.querySelector('.icon-link');
+
+            const tl = new gsap.timeline({
+                paused: true,
+                onComplete:
+                    dir === 'in'
+                        ? () => {
+                              this.transitionning = false;
+                          }
+                        : null
+            });
+
+            const txts = [link, title, cat].filter(el => el);
+
+            if (dir === 'in') txts.reverse();
+
+            tl.fromTo(
+                txts,
+                {
+                    y: dir === 'in' ? 10 : 0,
+                    opacity: dir === 'in' ? 0 : 1
+                },
+                {
+                    duration: 0.8,
+                    stagger: 0.1,
+                    y: dir === 'out' ? 10 : 0,
+                    opacity: dir === 'out' ? 0 : 1,
+                    ease: 'power3.out'
+                }
+            );
+
+            return tl;
+        },
+        slideTimeline(currentInner, currentImage, nextInner, nextImage, nextIndex, dir) {
+            const tl = new gsap.timeline({
+                paused: true
+            });
+            tl.fromTo(
+                nextInner,
+                {
+                    scale: 1.2
+                },
+                {
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    scale: 1
+                },
+                'start'
+            );
+            tl.fromTo(
+                currentInner,
+                {
+                    scale: 1
+                },
+                {
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    scale: 1.2
+                },
+                'start'
+            );
+            tl.fromTo(
+                currentImage,
+                {
+                    opacity: 1,
+                    x: 0
+                },
+                {
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    x: `${-50 * dir}%`,
+                    opacity: 0
+                },
+                'start'
+            );
+            tl.fromTo(
+                nextImage,
+                {
+                    opacity: 1,
+                    x: `${100 * dir}%`
+                },
+                {
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    x: 0
+                },
+                'start'
+            );
+            tl.add(() => {
+                this.afterAnim(nextIndex);
+            }, 'start+=0.7');
+
+            tl.add(() => {
+                this.timeoutAutoplay();
+            }, 'start+=1');
+
+            return tl;
         }
     }
 };
@@ -105,13 +318,14 @@ export default {
         width: 14px;
         height: 14px;
         margin-top: 5px;
-        color: $white;
+        color: currentColor;
     }
 }
 .nav {
     position: relative;
     flex-shrink: 0;
     padding: $gutter * 2;
+    z-index: 2;
     &::after {
         content: '';
         position: absolute;
@@ -142,11 +356,16 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+    opacity: 0;
+    transform-origin: 50% 50%;
+    overflow: hidden;
     img {
         object-fit: cover;
         max-width: none;
         width: 100%;
         height: 100%;
+        transform-origin: 50% 50%;
+        transform: scale(1.2);
     }
     &.center {
         img {
@@ -187,6 +406,13 @@ export default {
 .name {
     font-size: 1.6rem;
     line-height: 1.1;
+}
+
+.icon-link,
+.name,
+.category {
+    opacity: 0;
+    transform: translateY(10px);
 }
 
 @media (min-width: $tablet) {

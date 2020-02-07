@@ -2,7 +2,8 @@ import slides from '~/static/slides/slides.json';
 
 export const state = () => ({
     loading: true,
-    slides: slides.slides
+    slides: slides.slides,
+    timerSlide: 6000
 });
 
 // export const getters = () => {};

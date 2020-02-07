@@ -125,8 +125,6 @@ export default {
                 .catch(() => {
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
                     this.$refs.player.play().catch(e => {
-                        console.log('bonjour');
-
                         this.letsFakeIt();
                     });
                 });
@@ -153,8 +151,6 @@ export default {
             this.nextTrack();
         },
         timeUpdate() {
-            console.log(this.$refs.player.currentTime);
-
             if (!this.$refs.player || this.fake || this.stoped) return;
             const duration = this.$refs.player.duration;
             const currentTime = this.$refs.player.currentTime;

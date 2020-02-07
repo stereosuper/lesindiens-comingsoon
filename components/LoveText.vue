@@ -2,7 +2,7 @@
     <div class="title">
         <h1>
             <span ref="area" @mouseenter="sendLove" @mouseleave="stopSendingLove" @mousemove="getMousePos">
-                On vous aime déjà&nbsp;!
+                On vous <br />aime déjà&nbsp;!
             </span>
             <div ref="container" class="love-container"></div>
         </h1>

@@ -16,7 +16,7 @@
                 :class="{ center: s.color }"
                 :style="{ backgroundColor: s.color }"
             >
-                <img :src="`slides/${s.image}`" :alt="s.title" />
+                <img v-imageLoaded :src="`slides/${s.image}`" :alt="s.title" />
             </div>
         </div>
         <div class="nav">

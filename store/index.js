@@ -21,7 +21,7 @@ export const getters = {
                       if (trk.url) {
                           acc.push(trk);
                       } else {
-                          console.log('NO PREVIEW URL:', trk.artist, '-', trk.name);
+                          //   console.log('NO PREVIEW URL:', trk.artist, '-', trk.name);
                       }
                       return acc;
                   }, [])

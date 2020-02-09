@@ -25,11 +25,22 @@ export default {
         GridSystem,
         CustomCursor
     },
+    computed: {
+        allImages() {
+            return this.$store.state.imageLoaded.allImages;
+        },
+        allLoadedImages() {
+            return this.$store.state.imageLoaded.allLoadedImages;
+        },
+        areAllImagesLoaded() {
+            return this.$store.getters['imageLoaded/areAllImagesLoaded'];
+        }
+    },
     mounted() {
         this.$stereorepo.superWindow.initializeWindow(this.$store);
         window.addEventListener('mousemove', this.mouseMove, false);
         this.$nextTick(() => {
-            this.$store.commit('setLoading', false);
+            if (this.areAllImagesLoaded) this.$store.commit('setLoading', false);
         });
     },
     methods: {

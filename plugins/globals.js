@@ -1,10 +1,8 @@
 import Vue from 'vue';
 import Icon from '~/components/Layout/Icon';
+import imageLoaded from '~/plugins/directives/imageLoaded';
 // NOTE: Here's how to import superComponents
-import {
-    useSacVue,
-    useSuperWindowVue
-} from '@stereorepo/sac';
+import { useSacVue, useSuperWindowVue } from '@stereorepo/sac';
 
 Vue.prototype.$stereosuper = {
     ...Vue.prototype.$stereosuper,
@@ -18,6 +16,8 @@ Vue.config.performance = isDevEnv;
 // NOTE: Here's an example of how to use superComponents like superWindowVue
 Vue.use(useSacVue);
 Vue.use(useSuperWindowVue);
+
+Vue.directive('imageLoaded', imageLoaded);
 
 // Set Vue.component here
 Vue.component('Icon', Icon);

@@ -13,6 +13,23 @@ export default {
     computed: {
         isLoading() {
             return this.$store.state.loading;
+        },
+        allImages() {
+            return this.$store.state.imageLoaded.allImages;
+        },
+        allLoadedImages() {
+            return this.$store.state.imageLoaded.allLoadedImages;
+        },
+        areAllImagesLoaded() {
+            return this.$store.getters['imageLoaded/areAllImagesLoaded'];
+        }
+    },
+    watch: {
+        allLoadedImages() {
+            if (this.areAllImagesLoaded) {
+                console.log('watch');
+                this.$store.commit('setLoading', false);
+            }
         }
     },
     methods: {
@@ -27,7 +44,11 @@ export default {
             if (remainingTime > 0) {
                 await wait(remainingTime);
             }
-            this.$store.commit('setLoading', false);
+            if (this.areAllImagesLoaded) {
+                console.log('finish');
+
+                this.$store.commit('setLoading', false);
+            }
         }
     }
 };

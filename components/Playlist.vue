@@ -1,5 +1,5 @@
 <template>
-    <div class="playlist">
+    <div class="playlist" :class="{ show: ready }">
         <div class="disque">
             <div ref="jaquette" class="jaquette" :style="{ backgroundImage: `url(${jaquetteUrl})` }"></div>
             <svg class="progress" height="70" width="70">
@@ -54,7 +54,8 @@ export default {
         fakeTween: null,
         skeudTween: null,
         youNeedToStopTheFake: false,
-        stoped: true
+        stoped: true,
+        ready: false
     }),
     computed: {
         dashOffset() {
@@ -80,7 +81,11 @@ export default {
 
     watch: {
         isL(l) {
-            if (l) this.tracks = this.$store.getters.getTracks;
+            if (l) {
+                this.tracks = this.$store.getters.getTracks;
+            } else {
+                this.ready = false;
+            }
         },
         dashOffset(d) {
             gsap.to(this.$refs.circle, {
@@ -126,6 +131,7 @@ export default {
             const playPromise = this.$refs.player.play() || Promise.reject('');
             playPromise
                 .then(() => {
+                    if (!this.ready) this.ready = true;
                     if (this.fake) this.fake = false;
                     if (this.skeudTween && this.skeudTween.progress() < 1) return;
                     this.launchSkeud();
@@ -133,6 +139,7 @@ export default {
                 .catch(() => {
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
                     this.$refs.player.play().catch(e => {
+                        if (!this.ready) this.ready = true;
                         this.letsFakeIt();
                     });
                 });
@@ -206,6 +213,11 @@ button {
     display: inline-flex;
     width: 100%;
     padding: 0 $gutter;
+    opacity: 0;
+    transition: opacity 1s $ease-out-timing-function;
+    &.show {
+        opacity: 1;
+    }
 }
 .disque {
     position: relative;

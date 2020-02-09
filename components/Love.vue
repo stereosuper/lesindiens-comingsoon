@@ -77,6 +77,7 @@ ul {
 
 .inner-love {
     position: relative;
+    max-width: 100%;
 }
 
 @media (min-width: $tablet) {

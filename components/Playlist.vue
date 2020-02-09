@@ -1,7 +1,14 @@
 <template>
     <div class="playlist" :class="{ show: ready }">
         <div class="disque">
-            <div ref="jaquette" class="jaquette" :style="{ backgroundImage: `url(${jaquetteUrl})` }"></div>
+            <div ref="jaquette" class="jaquettes">
+                <div class="jaquette" :style="{ backgroundImage: `url(${jaquetteUrl})` }"></div>
+                <div
+                    ref="nextJaquette"
+                    class="jaquette next-jaquette"
+                    :style="{ backgroundImage: `url(${nextJaquetteUrl})` }"
+                ></div>
+            </div>
             <svg class="progress" height="70" width="70">
                 <circle
                     ref="circle"
@@ -16,13 +23,13 @@
             </svg>
         </div>
         <div class="data">
-            <span class="name">{{ trackName }}</span>
-            <span class="artist">{{ artistName }}</span>
+            <span ref="name" class="name">{{ trackName }}</span>
+            <span ref="artist" class="artist">{{ artistName }}</span>
             <div class="controls">
-                <button aria-label="Précédente musique" class="track prev" @click="prevTrack">
+                <button aria-label="Précédente musique" class="track prev" @click="nextTrack(-1)">
                     <Icon name="backward" />
                 </button>
-                <button aria-label="Prochaine musique" class="track next" @click="nextTrack">
+                <button aria-label="Prochaine musique" class="track next" @click="nextTrack(1)">
                     <Icon name="backward" />
                 </button>
                 <button aria-label="Son allumé ou muet" class="sound" @click="toggleMute">
@@ -48,21 +55,20 @@ export default {
         mute: true,
         progress: 0,
         circum: 34 * 2 * Math.PI,
-        tracks: null,
         current: 0,
         fake: false,
         fakeTween: null,
         skeudTween: null,
-        youNeedToStopTheFake: false,
+        currentRotation: 0,
         stoped: true,
-        ready: false
+        ready: false,
+        trackUrl: '',
+        jaquetteUrl: '',
+        nextJaquetteUrl: ''
     }),
     computed: {
         dashOffset() {
             return this.circum - (this.progress / 100) * this.circum;
-        },
-        jaquetteUrl() {
-            return this.tracks ? this.tracks[this.current].img.url : '';
         },
         trackName() {
             return this.tracks ? this.tracks[this.current].name : '';
@@ -70,20 +76,18 @@ export default {
         artistName() {
             return this.tracks ? this.tracks[this.current].artist : '';
         },
+        tracks() {
+            return this.$store.getters.getTracks;
+        },
         isL() {
             if (!this.$store.state.superWindow) return false;
             return this.$store.state.superWindow.width >= this.$breakpoints.list.l;
-        },
-        trackUrl() {
-            return this.tracks ? this.tracks[this.current].url : '';
         }
     },
 
     watch: {
         isL(l) {
-            if (l) {
-                this.tracks = this.$store.getters.getTracks;
-            } else {
+            if (!l) {
                 this.ready = false;
             }
         },
@@ -98,13 +102,14 @@ export default {
             this.$refs.player.muted = this.mute;
         }
     },
-    async created() {
-        if (this.tracks) return;
-        const res = await this.$axios.get('/.netlify/functions/getPlaylist');
-        this.$store.commit('setTracks', res.data.playlist.items);
-        this.tracks = this.$store.getters.getTracks;
+    mounted() {
+        this.initPlaylist();
     },
     methods: {
+        initPlaylist() {
+            this.jaquetteUrl = this.tracks[this.current].img.url;
+            this.trackUrl = this.tracks[this.current].url;
+        },
         letsFakeIt() {
             this.fake = true;
             this.fakeLoop();
@@ -116,12 +121,13 @@ export default {
                 progress: 100,
                 ease: 'none',
                 onComplete: () => {
-                    this.nextTrack();
+                    this.nextTrack(1);
                 }
             });
         },
         stopTheFake() {
             this.fake = false;
+            this.currentRotation = gsap.getProperty(this.$refs.jaquette, 'rotation');
             this.fakeTween.kill();
             this.$refs.player.currentTime = (this.$refs.player.duration * this.progress) / 100;
             this.$refs.player.play();
@@ -133,7 +139,6 @@ export default {
                 .then(() => {
                     if (!this.ready) this.ready = true;
                     if (this.fake) this.fake = false;
-                    if (this.skeudTween && this.skeudTween.progress() < 1) return;
                     this.launchSkeud();
                 })
                 .catch(() => {
@@ -145,10 +150,11 @@ export default {
                 });
         },
         launchSkeud() {
+            if (this.skeudTween) this.skeudTween.kill();
             this.skeudTween = gsap.fromTo(
                 this.$refs.jaquette,
                 {
-                    rotation: 0
+                    rotation: this.currentRotation
                 },
                 {
                     duration: this.$refs.player.duration,
@@ -156,6 +162,7 @@ export default {
                     ease: 'none'
                 }
             );
+            this.currentRotation = 0;
         },
         toggleMute() {
             if (this.fake) this.stopTheFake();
@@ -163,7 +170,7 @@ export default {
             this.$refs.player.muted = this.mute;
         },
         audioEnd() {
-            this.nextTrack();
+            this.nextTrack(1);
         },
         timeUpdate() {
             if (!this.$refs.player || this.fake || this.stoped) return;
@@ -171,34 +178,90 @@ export default {
             const currentTime = this.$refs.player.currentTime;
             this.progress = (currentTime / duration) * 100;
         },
-        nextTrack() {
-            this.stoped = true;
-            this.$refs.player.pause();
-            // this.$refs.player.currentTime = 0;
-            if (this.skeudTween) this.skeudTween.kill();
-            if (this.fake) this.fakeTween.kill();
-            this.progress = 0;
-            this.skeudTween = gsap.to(this.$refs.jaquette, {
-                duration: 0.3,
-                rotation: '-=360',
-                onComplete: () => {
-                    this.current = this.current === this.tracks.length - 1 ? 0 : this.current + 1;
-                }
-            });
+        getNextIndex(dir) {
+            if (dir > 0) {
+                return this.current === this.tracks.length - 1 ? 0 : this.current + 1;
+            } else {
+                return this.current === 0 ? this.tracks.length - 1 : this.current - 1;
+            }
         },
-        prevTrack() {
+        nextTrack(direction) {
+            if (this.transitionning) return;
+            this.transitionning = true;
+            gsap.set(this.$refs.nextJaquette, {
+                opacity: 0,
+                zIndex: '1'
+            });
             this.stoped = true;
             this.$refs.player.pause();
             if (this.skeudTween) this.skeudTween.kill();
             if (this.fake) this.fakeTween.kill();
             this.progress = 0;
-            this.skeudTween = gsap.to(this.$refs.jaquette, {
-                duration: 0.3,
-                rotation: '-=360',
+
+            const nextCurrent = this.getNextIndex(direction);
+
+            this.nextJaquetteUrl = this.tracks[nextCurrent].img.url;
+
+            const rotationToRemove = (gsap.getProperty(this.$refs.jaquette, 'rotation') % 360) + 360;
+
+            const tlDisappear = new gsap.timeline({
                 onComplete: () => {
-                    this.current = this.current === 0 ? this.tracks.length - 1 : this.current - 1;
+                    this.transitionning = false;
                 }
             });
+
+            tlDisappear
+                .set(
+                    this.$refs.nextJaquette,
+                    {
+                        zIndex: '3'
+                    },
+                    'begin'
+                )
+                .to(
+                    this.$refs.nextJaquette,
+                    {
+                        duration: 0.3,
+                        opacity: 1
+                    },
+                    'begin'
+                )
+                .to(
+                    this.$refs.jaquette,
+                    {
+                        duration: 0.5,
+                        rotation: `-=${rotationToRemove}`,
+                        onComplete: () => {}
+                    },
+                    'begin'
+                )
+                .to(
+                    [this.$refs.artist, this.$refs.name],
+                    {
+                        duration: 0.5,
+                        stagger: 0.1,
+                        y: 10,
+                        opacity: 0,
+                        ease: 'power3.out'
+                    },
+                    'begin'
+                )
+                .add(() => {
+                    this.current = nextCurrent;
+                    this.jaquetteUrl = this.tracks[nextCurrent].img.url;
+                    this.trackUrl = this.tracks[this.current].url;
+                }, 'end')
+                .to(
+                    [this.$refs.artist, this.$refs.name],
+                    {
+                        duration: 0.5,
+                        stagger: 0.1,
+                        y: 0,
+                        opacity: 1,
+                        ease: 'power3.out'
+                    },
+                    'end'
+                );
         }
     }
 };
@@ -252,15 +315,10 @@ button {
     }
 }
 
-.jaquette {
+.jaquettes {
     position: relative;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-    background-position: 50% 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-color: black;
     &::after {
         content: '';
         position: absolute;
@@ -270,6 +328,25 @@ button {
         height: 10px;
         border-radius: 50%;
         background-color: $black;
+        z-index: 4;
+    }
+}
+
+.jaquette {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 50%;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    z-index: 2;
+    &.next-jaquette {
+        opacity: 0;
+        z-index: 1;
     }
 }
 
@@ -291,6 +368,7 @@ button {
     width: 16px;
     height: 11px;
     margin-left: 20px;
+    transition: opacity 0.3s ease-in-out;
     .icon {
         position: absolute;
         left: 0;
@@ -298,6 +376,10 @@ button {
         width: 16px;
         height: 11px;
         color: $white;
+    }
+    &:hover,
+    &:focus {
+        opacity: 0.7;
     }
 }
 

@@ -12,6 +12,10 @@ export default {
     components: {
         Love,
         Slider
+    },
+    async fetch({ app }) {
+        const res = await app.$axios.get('/.netlify/functions/getPlaylist');
+        app.store.commit('setTracks', res.data.playlist.items);
     }
 };
 </script>

@@ -69,12 +69,19 @@ export default {
         artistName() {
             return this.tracks ? this.tracks[this.current].artist : '';
         },
+        isL() {
+            if (!this.$store.state.superWindow) return false;
+            return this.$store.state.superWindow.width >= this.$breakpoints.list.l;
+        },
         trackUrl() {
             return this.tracks ? this.tracks[this.current].url : '';
         }
     },
 
     watch: {
+        isL(l) {
+            if (l) this.tracks = this.$store.getters.getTracks;
+        },
         dashOffset(d) {
             gsap.to(this.$refs.circle, {
                 strokeDashoffset: d,
@@ -87,9 +94,10 @@ export default {
         }
     },
     async created() {
+        if (this.tracks) return;
         const res = await this.$axios.get('/.netlify/functions/getPlaylist');
-        this.tracks = res.data.playlist.items;
-        this.tracks = this.reduceTracks(this.tracks);
+        this.$store.commit('setTracks', res.data.playlist.items);
+        this.tracks = this.$store.getters.getTracks;
     },
     methods: {
         letsFakeIt() {
@@ -184,24 +192,6 @@ export default {
                     this.current = this.current === 0 ? this.tracks.length - 1 : this.current - 1;
                 }
             });
-        },
-        reduceTracks(tracks) {
-            return tracks
-                .reduce((acc, track) => {
-                    const trk = {
-                        url: track.track.preview_url,
-                        name: track.track.name,
-                        img: track.track.album.images[0],
-                        artist: track.track.artists[0].name
-                    };
-                    if (trk.url) {
-                        acc.push(trk);
-                    } else {
-                        console.log('NO PREVIEW URL:', trk.artist, '-', trk.name);
-                    }
-                    return acc;
-                }, [])
-                .sort(() => Math.random() - 0.5);
         }
     }
 };

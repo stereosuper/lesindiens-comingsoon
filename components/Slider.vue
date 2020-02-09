@@ -84,11 +84,14 @@ export default {
     watch: {
         isL(is) {
             if (!is) {
-                if (this.autoPlayTimeout) clearRequestTimeout(this.autoPlayTimeout);
+                if (this.autoPlayTimeout) {
+                    clearRequestTimeout(this.autoPlayTimeout);
+                    this.autoPlayTimeout = null;
+                }
                 this.$store.commit('cursor/setShowCursor', false);
             } else {
                 this.$nextTick(() => {
-                    this.timeoutAutoplay();
+                    if (!this.autoPlayTimeout) this.timeoutAutoplay();
                 });
             }
         },

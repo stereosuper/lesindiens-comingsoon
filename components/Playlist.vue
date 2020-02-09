@@ -19,13 +19,13 @@
             <span class="name">{{ trackName }}</span>
             <span class="artist">{{ artistName }}</span>
             <div class="controls">
-                <button name="Précédente musique" class="track prev" @click="prevTrack">
+                <button aria-label="Précédente musique" class="track prev" @click="prevTrack">
                     <Icon name="backward" />
                 </button>
-                <button name="Prochaine musique" class="track next" @click="nextTrack">
+                <button aria-label="Prochaine musique" class="track next" @click="nextTrack">
                     <Icon name="backward" />
                 </button>
-                <button name="Son allumé ou muet" class="sound" @click="toggleMute">
+                <button aria-label="Son allumé ou muet" class="sound" @click="toggleMute">
                     <Icon v-show="mute" name="mute" />
                     <Icon v-show="!mute" name="sound" />
                 </button>

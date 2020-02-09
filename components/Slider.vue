@@ -35,10 +35,10 @@
                     </div>
                 </div>
                 <div class="arrows">
-                    <button name="Projet précédent" class="prev" @click="changeSlide('left')">
+                    <button aria-label="Projet précédent" class="prev" @click="changeSlide('left')">
                         <Icon name="chevron" />
                     </button>
-                    <button name="Projet suivant" class="next" @click="changeSlide('right')">
+                    <button aria-label="Projet suivant" class="next" @click="changeSlide('right')">
                         <Icon name="chevron" />
                     </button>
                 </div>

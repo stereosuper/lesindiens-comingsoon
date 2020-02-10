@@ -5,6 +5,7 @@
                 <circle
                     ref="circle"
                     class="progress-circle"
+                    transform="rotate(-90)"
                     stroke-width="2"
                     stroke="#181A23"
                     fill="transparent"

@@ -16,6 +16,7 @@
                     stroke-width="1"
                     stroke="white"
                     fill="transparent"
+                    transform="rotate(-90)"
                     r="34"
                     cx="36"
                     cy="36"

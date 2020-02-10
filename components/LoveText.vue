@@ -7,8 +7,8 @@
             <div ref="container" class="love-container"></div>
         </h1>
         <svg
+            v-show="false"
             ref="model"
-            class="model"
             viewBox="0 0 23 20"
             width="23"
             height="20"
@@ -66,7 +66,7 @@ export default {
         },
         send() {
             const svg = this.$refs.model.cloneNode(true);
-            svg.classList.remove('model');
+            svg.style.display = 'block';
             this.$refs.container.appendChild(svg);
 
             const randoms = {

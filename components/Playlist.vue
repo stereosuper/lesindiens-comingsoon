@@ -16,7 +16,7 @@
                     stroke-width="1"
                     stroke="white"
                     fill="transparent"
-                    transform="rotate(-90)"
+                    transform="matrix(0,-1,1,0,0,80)"
                     r="34"
                     cx="36"
                     cy="36"

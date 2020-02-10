@@ -5,10 +5,10 @@
                 <circle
                     ref="circle"
                     class="progress-circle"
-                    transform="rotate(-90)"
                     stroke-width="2"
                     stroke="#181A23"
                     fill="transparent"
+                    transform="matrix(0,-1,1,0,0,80)"
                     r="40"
                     cx="40"
                     cy="40"

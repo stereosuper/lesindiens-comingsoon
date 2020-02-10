@@ -135,6 +135,8 @@ export default {
         readyToPlay() {
             if (this.trackUrl === '' || !this.$refs.player) return;
             const playPromise = this.$refs.player.play() || Promise.reject('');
+            console.log(playPromise);
+
             playPromise
                 .then(() => {
                     if (!this.ready) this.ready = true;

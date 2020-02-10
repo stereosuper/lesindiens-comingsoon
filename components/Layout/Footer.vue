@@ -68,6 +68,7 @@ a {
         height: $header-height;
         padding: 0 $gutter;
         background-color: $black;
+        z-index: 10;
     }
 }
 

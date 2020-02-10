@@ -81,7 +81,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .love-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     left: 0;

@@ -16,8 +16,10 @@ export default {
             el.removeEventListener('load', imageIsLoaded, false);
         };
         console.log('im putting the event');
-        el.addEventListener('load', imageIsLoaded, false);
-        const src = el.src;
-        el.src = src;
+        // el.addEventListener('load', imageIsLoaded, false);
+        var img = new Image();
+        img.addEventListener('load', imageIsLoaded, false);
+        img.src = el.src;
+        el.src = img.src;
     }
 };

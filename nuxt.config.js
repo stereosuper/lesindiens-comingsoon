@@ -255,6 +255,11 @@ export default {
      ** Build configuration
      */
     build: {
+        html: {
+            minify: {
+                minifyJS: false
+            }
+        },
         /*
          ** Used to analyse chunks
          */

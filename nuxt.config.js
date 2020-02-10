@@ -19,6 +19,8 @@ const netlifyEnv = process.env.NODE_ENV;
 const isDevEnv = netlifyEnv === 'development';
 const websiteUrl = process.env.URL || `http://${process.env.HOST}:${process.env.PORT}`;
 
+const features = ['Array.prototype.indexOf'].join('%2C');
+
 export default {
     mode: 'universal',
     /*
@@ -45,6 +47,10 @@ export default {
         htmlAttrs: {
             lang: 'en'
         },
+        script: [{
+            nomodule: 'true',
+            src: `https://polyfill.io/v3/polyfill.min.js?features=${features}`
+        }];
         meta: [
             {
                 charset: 'utf-8'

@@ -144,7 +144,7 @@ export default {
                 .catch(() => {
                     this.$refs.player.muted = true;
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
-                    console.log(this.$refs.player.play);
+                    console.log(this.$refs.player.play());
                     this.$refs.player
                         .play()
                         .then(() => {

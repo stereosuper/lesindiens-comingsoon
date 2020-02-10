@@ -47,10 +47,12 @@ export default {
         htmlAttrs: {
             lang: 'en'
         },
-        script: [{
-            nomodule: 'true',
-            src: `https://polyfill.io/v3/polyfill.min.js?features=${features}`
-        }];
+        script: [
+            {
+                nomodule: 'true',
+                src: `https://polyfill.io/v3/polyfill.min.js?features=${features}`
+            }
+        ],
         meta: [
             {
                 charset: 'utf-8'

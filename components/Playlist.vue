@@ -148,7 +148,6 @@ export default {
                     playPromise = this.$refs.player.play() || Promise.reject('');
                     playPromise.catch(e => {
                         if (!this.ready) this.ready = true;
-                        console.log('im in');
                         this.letsFakeIt();
                     });
                 });

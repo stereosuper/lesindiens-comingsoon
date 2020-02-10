@@ -187,7 +187,7 @@ export default {
      ** Nuxt.js dev-modules
      ** SEE: https://github.com/Atinux/nuxt-prismic-showcase/tree/master/modules
      */
-    buildModules: ['~/modules/static'],
+    // buildModules: ['~/modules/static'],
     /*
      ** Crawler config
      */

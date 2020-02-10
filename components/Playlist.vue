@@ -146,12 +146,19 @@ export default {
                 .catch(() => {
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
                     console.log(this.$refs.player.play);
-                    this.$refs.player.play().catch(e => {
-                        if (!this.ready) this.ready = true;
-                        console.log('im in');
+                    this.$refs.player
+                        .play()
+                        .then(() => {
+                            if (!this.ready) this.ready = true;
+                            if (this.fake) this.fake = false;
+                            this.launchSkeud();
+                        })
+                        .catch(e => {
+                            if (!this.ready) this.ready = true;
+                            console.log('im in');
 
-                        this.letsFakeIt();
-                    });
+                            this.letsFakeIt();
+                        });
                 });
         },
         launchSkeud() {

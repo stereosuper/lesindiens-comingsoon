@@ -135,7 +135,7 @@ export default {
         readyToPlay() {
             if (this.trackUrl === '' || !this.$refs.player) return;
             const playPromise = this.$refs.player.play() || Promise.reject('');
-            console.log(this.$refs.player);
+            console.log(this.$refs.player.play);
 
             playPromise
                 .then(() => {
@@ -145,9 +145,11 @@ export default {
                 })
                 .catch(() => {
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
-                    console.log(this.$refs.player);
+                    console.log(this.$refs.player.play);
                     this.$refs.player.play().catch(e => {
                         if (!this.ready) this.ready = true;
+                        console.log('im in');
+
                         this.letsFakeIt();
                     });
                 });

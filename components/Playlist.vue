@@ -134,7 +134,7 @@ export default {
         },
         readyToPlay() {
             if (this.trackUrl === '' || !this.$refs.player) return;
-            const playPromise = this.$refs.player.play() || Promise.reject('');
+            let playPromise = this.$refs.player.play() || Promise.reject('');
             playPromise
                 .then(() => {
                     if (!this.ready) this.ready = true;
@@ -144,20 +144,12 @@ export default {
                 .catch(() => {
                     this.$refs.player.muted = true;
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
-                    console.log(this.$refs.player.play());
-                    this.$refs.player
-                        .play()
-                        .then(() => {
-                            if (!this.ready) this.ready = true;
-                            if (this.fake) this.fake = false;
-                            this.launchSkeud();
-                        })
-                        .catch(e => {
-                            if (!this.ready) this.ready = true;
-                            console.log('im in');
-
-                            this.letsFakeIt();
-                        });
+                    playPromise = this.$refs.player.play() || Promise.reject('');
+                    playPromise.catch(e => {
+                        if (!this.ready) this.ready = true;
+                        console.log('im in');
+                        this.letsFakeIt();
+                    });
                 });
         },
         launchSkeud() {

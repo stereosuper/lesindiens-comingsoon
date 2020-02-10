@@ -7,12 +7,17 @@ export default {
     },
     inserted: (el, binding, vnode) => {
         const imageIsLoaded = () => {
+            console.log('yay event fired');
+
             vnode.context.$store.commit('imageLoaded/addLoadedImage', {
                 alt: el.alt,
                 src: el.src
             });
             el.removeEventListener('load', imageIsLoaded, false);
         };
+        console.log('im putting the event');
         el.addEventListener('load', imageIsLoaded, false);
+        const src = el.src;
+        el.src = src;
     }
 };

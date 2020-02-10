@@ -135,7 +135,7 @@ export default {
         readyToPlay() {
             if (this.trackUrl === '' || !this.$refs.player) return;
             const playPromise = this.$refs.player.play() || Promise.reject('');
-            console.log(playPromise);
+            console.log(this.$refs.player);
 
             playPromise
                 .then(() => {
@@ -145,6 +145,7 @@ export default {
                 })
                 .catch(() => {
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
+                    console.log(this.$refs.player);
                     this.$refs.player.play().catch(e => {
                         if (!this.ready) this.ready = true;
                         this.letsFakeIt();

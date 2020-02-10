@@ -135,8 +135,6 @@ export default {
         readyToPlay() {
             if (this.trackUrl === '' || !this.$refs.player) return;
             const playPromise = this.$refs.player.play() || Promise.reject('');
-            console.log(this.$refs.player.play);
-
             playPromise
                 .then(() => {
                     if (!this.ready) this.ready = true;
@@ -144,6 +142,7 @@ export default {
                     this.launchSkeud();
                 })
                 .catch(() => {
+                    this.$refs.player.muted = true;
                     // Video couldn't be autoplayed because of autoplay policy. Mute it and play.
                     console.log(this.$refs.player.play);
                     this.$refs.player

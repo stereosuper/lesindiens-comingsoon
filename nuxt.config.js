@@ -19,7 +19,7 @@ const netlifyEnv = process.env.NODE_ENV;
 const isDevEnv = netlifyEnv === 'development';
 const websiteUrl = process.env.URL || `http://${process.env.HOST}:${process.env.PORT}`;
 
-const features = ['Array.prototype.indexOf'].join('%2C');
+const features = ['Array.prototype.indexOf', 'Promise'].join('%2C');
 
 export default {
     mode: 'universal',

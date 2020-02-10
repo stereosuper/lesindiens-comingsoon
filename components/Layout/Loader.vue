@@ -28,6 +28,7 @@ export default {
         allLoadedImages() {
             if (this.areAllImagesLoaded) {
                 this.$store.commit('setLoading', false);
+                console.log('watch');
             }
         }
     },
@@ -44,6 +45,8 @@ export default {
                 await wait(remainingTime);
             }
             if (this.areAllImagesLoaded) {
+                console.log('finish');
+
                 this.$store.commit('setLoading', false);
             }
         }

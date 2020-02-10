@@ -49,7 +49,7 @@
     </div>
 </template>
 <script>
-import { gsap } from 'gsap/all';
+import { gsap } from 'gsap';
 export default {
     data: () => ({
         mute: true,

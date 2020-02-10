@@ -47,7 +47,7 @@
     </div>
 </template>
 <script>
-import { gsap } from 'gsap/all';
+import { gsap } from 'gsap';
 import { EventBus } from '~/assets/js/global';
 import { requestTimeout, clearRequestTimeout } from '@stereorepo/sac';
 export default {

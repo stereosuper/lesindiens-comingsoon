@@ -24,7 +24,7 @@
     </div>
 </template>
 <script>
-import { gsap } from 'gsap/all';
+import { gsap } from 'gsap';
 import { EventBus } from '~/assets/js/global';
 
 export default {

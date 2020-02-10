@@ -26,7 +26,7 @@
 </template>
 <script>
 import { requestTimeout, clearRequestTimeout } from '@stereorepo/sac';
-import { gsap } from 'gsap/all';
+import { gsap } from 'gsap';
 export default {
     data: () => ({
         over: false,

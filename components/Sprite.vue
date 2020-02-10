@@ -2,7 +2,7 @@
     <div ref="image" class="sprite" :style="{ backgroundImage: `url(img/hand.png)` }"></div>
 </template>
 <script>
-import { gsap } from 'gsap/all';
+import { gsap } from 'gsap';
 export default {
     props: {
         cols: {

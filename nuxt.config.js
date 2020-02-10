@@ -271,7 +271,7 @@ export default {
         /*
          ** You can extend webpack config here
          */
-        transpile: [/@stereorepo/, /gsap/],
+        transpile: [/@stereorepo/],
         extend(config, ctx) {
             config.resolve.alias['vue'] = 'vue/dist/vue.common';
             delete config.resolve.alias['@@'];

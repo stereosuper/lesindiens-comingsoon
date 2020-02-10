@@ -16,7 +16,18 @@
                 :class="{ center: s.color }"
                 :style="{ backgroundColor: s.color }"
             >
-                <img v-imageLoaded :src="`slides/${s.image}`" :alt="s.title" />
+                <img
+                    v-if="!objectFitFallback"
+                    v-imageLoaded
+                    class="js-image-inner"
+                    :src="`slides/${s.image}`"
+                    :alt="s.title"
+                />
+                <span
+                    v-if="objectFitFallback"
+                    class="image-fallback js-image-inner"
+                    :style="{ backgroundImage: `url(/slides/${s.image})` }"
+                ></span>
             </div>
         </div>
         <div class="nav">
@@ -49,7 +60,7 @@
 <script>
 import { gsap } from 'gsap';
 import { EventBus } from '~/assets/js/global';
-import { requestTimeout, clearRequestTimeout } from '@stereorepo/sac';
+import { requestTimeout, clearRequestTimeout, isIe11 } from '@stereorepo/sac';
 export default {
     data: () => ({
         rect: null,
@@ -57,7 +68,8 @@ export default {
         current: 0,
         totalNumber: 0,
         transitionning: false,
-        autoPlayTimeout: null
+        autoPlayTimeout: null,
+        objectFitFallback: false
     }),
     computed: {
         isL() {
@@ -105,6 +117,7 @@ export default {
     },
     mounted() {
         this.rect = this.$refs.slider.getBoundingClientRect();
+        this.objectFitFallback = isIe11();
         this.initSlider();
     },
     methods: {
@@ -117,7 +130,7 @@ export default {
             gsap.set(img, {
                 opacity: 1
             });
-            gsap.set(img.querySelector('img'), {
+            gsap.set(img.querySelector('.js-image-inner'), {
                 scale: 1
             });
 
@@ -141,9 +154,9 @@ export default {
             EventBus.$emit('back');
             this.transitionning = true;
             if (direction === 'left') {
-                this.prevSlide();
+                this.nextSlide(-1);
             } else {
-                this.nextSlide();
+                this.nextSlide(1);
             }
         },
         manageZindex(nextIndex) {
@@ -155,26 +168,21 @@ export default {
                 zIndex: 1
             });
         },
-        nextSlide() {
-            const nextIndex = this.current + 1 > this.totalNumber ? 0 : this.current + 1;
-            this.manageZindex(nextIndex);
-            const nextImage = this.$refs.image[nextIndex];
-            const nextInner = nextImage.querySelector('img');
-            const currentImage = this.$refs.image[this.current];
-            const currentInner = currentImage.querySelector('img');
-            const anim = this.slideTimeline(currentInner, currentImage, nextInner, nextImage, nextIndex, 1);
-            const animNav = this.navTimeline();
-            anim.play();
-            animNav.play();
+        getNextIndex(direction) {
+            if (direction > 0) {
+                return this.current + 1 > this.totalNumber ? 0 : this.current + 1;
+            } else {
+                return this.current - 1 < 0 ? this.totalNumber : this.current - 1;
+            }
         },
-        prevSlide() {
-            const nextIndex = this.current - 1 < 0 ? this.totalNumber : this.current - 1;
+        nextSlide(direction) {
+            const nextIndex = this.getNextIndex(direction);
             this.manageZindex(nextIndex);
             const nextImage = this.$refs.image[nextIndex];
-            const nextInner = nextImage.querySelector('img');
+            const nextInner = nextImage.querySelector('.js-image-inner');
             const currentImage = this.$refs.image[this.current];
-            const currentInner = currentImage.querySelector('img');
-            const anim = this.slideTimeline(currentInner, currentImage, nextInner, nextImage, nextIndex, -1);
+            const currentInner = currentImage.querySelector('.js-image-inner');
+            const anim = this.slideTimeline(currentInner, currentImage, nextInner, nextImage, nextIndex, direction);
             const animNav = this.navTimeline();
             anim.play();
             animNav.play();
@@ -208,7 +216,7 @@ export default {
             this.autoPlayTimeout = requestTimeout(() => {
                 EventBus.$emit('reset');
                 this.transitionning = true;
-                this.nextSlide();
+                this.nextSlide(1);
             }, this.$store.state.timerSlide);
         },
         afterAnim(nextIndex) {
@@ -395,6 +403,9 @@ export default {
         img {
             object-fit: contain;
         }
+        .image-fallback {
+            background-size: contain;
+        }
     }
 }
 
@@ -440,6 +451,21 @@ export default {
 .category {
     opacity: 0;
     transform: translateY(10px);
+}
+
+.image-fallback {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform-origin: 50% 50%;
+    transform: scale(1.2);
+    z-index: 1;
 }
 
 @media (min-width: $tablet) {

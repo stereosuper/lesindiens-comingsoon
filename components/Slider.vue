@@ -361,8 +361,8 @@ export default {
     &::after {
         content: '';
         position: absolute;
-        right: -20px;
-        left: -20px;
+        right: 0;
+        left: 0;
         height: 1px;
         bottom: 0;
         background-color: #313131;
@@ -475,6 +475,10 @@ export default {
     }
     .nav {
         padding: 20px 50px;
+        &::after {
+            right: -20px;
+            left: -20px;
+        }
     }
 }
 

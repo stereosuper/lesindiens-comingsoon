@@ -66,8 +66,8 @@ ul {
 
 .sprite {
     position: absolute;
-    bottom: -80px;
-    right: -30px;
+    bottom: -5px;
+    right: -50px;
     width: 340px;
     height: 340px;
     background-repeat: no-repeat;
@@ -78,6 +78,7 @@ ul {
 .inner-love {
     position: relative;
     max-width: 100%;
+    overflow: hidden;
 }
 
 @media (min-width: $tablet) {
@@ -85,7 +86,7 @@ ul {
         width: 400px;
         height: 400px;
         right: 0px;
-        bottom: -100px;
+        bottom: -55px;
     }
     .container {
         padding: 0;
@@ -101,6 +102,9 @@ ul {
     ul {
         padding: 0 $gutter;
         width: percentage(5/6);
+    }
+    .inner-love {
+        overflow: visible;
     }
 }
 

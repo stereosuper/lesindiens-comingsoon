@@ -27,7 +27,6 @@ export default {
     watch: {
         allLoadedImages() {
             if (this.areAllImagesLoaded) {
-                console.log('watch');
                 this.$store.commit('setLoading', false);
             }
         }
@@ -45,8 +44,6 @@ export default {
                 await wait(remainingTime);
             }
             if (this.areAllImagesLoaded) {
-                console.log('finish');
-
                 this.$store.commit('setLoading', false);
             }
         }

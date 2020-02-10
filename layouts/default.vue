@@ -6,6 +6,7 @@
             <Footer />
         </div>
         <GridSystem />
+        <HeartContainer />
         <CustomCursor />
         <Svgs />
     </div>
@@ -16,6 +17,7 @@ import Header from '~/components/Layout/Header';
 import Footer from '~/components/Layout/Footer';
 import Svgs from '~/components/Layout/Svgs';
 import GridSystem from '~/components/Layout/GridSystem';
+import HeartContainer from '~/components/Layout/HeartContainer';
 import CustomCursor from '~/components/Layout/CustomCursor';
 export default {
     components: {
@@ -23,7 +25,8 @@ export default {
         Footer,
         Svgs,
         GridSystem,
-        CustomCursor
+        CustomCursor,
+        HeartContainer
     },
     computed: {
         allImages() {

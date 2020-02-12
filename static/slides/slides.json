@@ -1,15 +1,42 @@
 {
     "slides": [{
-            "image": "48h.png",
-            "cat": "Web design",
-            "title": "48h"
-        },
-        {
-            "image": "winpharma.png",
-            "cat": "Web design",
-            "title": "Winpharma",
-            "url": "http://www.winpharma.com",
-            "color": "#eaeafa"
-        }
-    ]
+        "title": "Informatique Banque Populaire",
+        "cat": "Web design",
+        "url": "https://siteibp.azurewebsites.net/evenement/RapportAnnuel/index.html#/",
+        "image": "site_IBP.png"
+    }, {
+        "title": "Les 48h de l'Agriculture Urbaine 2019",
+        "cat": "Web design",
+        "url": "https://www.les48h.fr/",
+        "image": "site_48h.png"
+    }, {
+        "title": "winAutopilote",
+        "cat": "Web design",
+        "url": "http://www.winpharma.com/winautopilote/",
+        "image": "Site_Winpharma.png",
+        "color": "#EAEAF5"
+    }, {
+        "title": "Digirocks",
+        "cat": "Web design / Branding",
+        "image": "site_digirock.png"
+    }, {
+        "title": "MBSATA",
+        "cat": "Webdesign / Branding",
+        "url": "https://mbsata.com/",
+        "image": "site_mbs.png",
+        "color": "#F4F8FF"
+    }, {
+        "title": "Yoyo",
+        "cat": "Webdesign",
+        "image": "site_yoyo.png"
+    }, {
+        "title": "Beekast",
+        "cat": "Branding",
+        "image": "IV_beekast.png"
+    }, {
+        "title": "Episod",
+        "cat": "Webdesign",
+        "url": "https://www.episod.com/",
+        "image": "Site_episod.png"
+    }]
 }

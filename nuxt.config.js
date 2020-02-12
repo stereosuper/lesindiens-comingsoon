@@ -43,7 +43,7 @@ export default {
      ** Headers of the page
      */
     head: {
-        title: process.env.npm_package_name || '',
+        title: 'Les Indiens, branding et digital à Nantes',
         htmlAttrs: {
             lang: 'en'
         },
@@ -68,25 +68,22 @@ export default {
             {
                 hid: 'author',
                 name: 'author',
-                content: 'Stéréosuper'
+                content: 'Les Indiens'
             },
-            // COMBAK: Update open graph meta title
             {
                 hid: 'og:title',
                 property: 'og:title',
-                content: 'My business'
+                content: 'Les Indiens'
             },
-            // COMBAK: Update open graph meta site_name
             {
                 hid: 'og:site_name',
                 property: 'og:site_name',
-                content: 'My business'
+                content: 'Les Indiens'
             },
-            // COMBAK: Update open graph meta url
             {
                 hid: 'og:url',
                 property: 'og:url',
-                content: 'https://my-business.fr'
+                content: 'https://www.lesindiens.fr/'
             },
             // COMBAK: Update open graph meta image
             {
@@ -124,51 +121,49 @@ export default {
                 name: 'twitter:card',
                 content: 'summary_large_image'
             },
-            // COMBAK: Update open graph meta twitter:site
             {
                 hid: 'twitter:site',
                 name: 'twitter:site',
-                content: '@MyBusiness'
+                content: '@LesIndiens'
             },
-            // COMBAK: Update open graph meta twitter:creator
             {
                 hid: 'twitter:creator',
                 name: 'twitter:creator',
-                content: '@MyBusiness'
+                content: '@LesIndiens'
             },
             // COMBAK: Update open graph meta twitter:image
             {
                 hid: 'twitter:image',
                 name: 'twitter:image',
                 content: '/images/MyBusinessOgImage.png'
+            },
+            {
+                name: 'msapplication-TileColor',
+                content: '#181A22'
             }
-            // COMBAK: Uncomment and update real favicon generator tile color
-            // {
-            //     name: 'msapplication-TileColor',
-            //     content: '#fff',
-            // },
         ],
         link: [
-            // COMBAK: Uncomment and update real favicon generator favicon 32x32
-            // {
-            //     rel: 'icon',
-            //     type: 'image/png',
-            //     sizes: '32x32',
-            //     href: '/favicon-32x32.png',
-            // },
-            // COMBAK: Uncomment and update real favicon generator favicon 16x16
-            // {
-            //     rel: 'icon',
-            //     type: 'image/png',
-            //     sizes: '16x16',
-            //     href: '/favicon-16x16.png',
-            // },
-            // COMBAK: Uncomment and update real favicon generator safari pinned tab
-            // {
-            //     rel: 'mask-icon',
-            //     href: '/safari-pinned-tab.svg',
-            //     color: '#fff',
-            // },
+            {
+                rel: 'icon',
+                type: 'image/png',
+                sizes: '32x32',
+                href: '/favicon-32x32.png'
+            },
+            {
+                rel: 'manifest',
+                href: '/site.webmanifest'
+            },
+            {
+                rel: 'icon',
+                type: 'image/png',
+                sizes: '16x16',
+                href: '/favicon-16x16.png'
+            },
+            {
+                rel: 'mask-icon',
+                href: '/safari-pinned-tab.svg',
+                color: '#fff'
+            }
         ]
     },
     /*
@@ -183,19 +178,7 @@ export default {
      ** Plugins to load before mounting the App
      */
     plugins: ['~/plugins/globals.js', '~/plugins/breakpoints.js', '~/plugins/fastdom.js'],
-    /*
-     ** Nuxt.js dev-modules
-     ** SEE: https://github.com/Atinux/nuxt-prismic-showcase/tree/master/modules
-     */
-    // buildModules: ['~/modules/static'],
-    /*
-     ** Crawler config
-     */
-    crawler: {
-        // Blacklisting all the urls containing the strings below
-        // SEE: Example below
-        // blacklist: ['/wp-json/', '/api.w.org/'],
-    },
+
     generate: {
         fallback: '404.html'
     },

@@ -1,11 +1,11 @@
 {
     "slides": [{
-        "title": "Informatique Banque Populaire",
+        "title": "I.B.P.",
         "cat": "Web design",
         "url": "https://siteibp.azurewebsites.net/evenement/RapportAnnuel/index.html#/",
         "image": "site_IBP.png"
     }, {
-        "title": "Les 48h de l'Agriculture Urbaine 2019",
+        "title": "Les 48h de l'A.U.",
         "cat": "Web design",
         "url": "https://www.les48h.fr/",
         "image": "site_48h.png"
@@ -17,11 +17,11 @@
         "color": "#EAEAF5"
     }, {
         "title": "Digirocks",
-        "cat": "Web design / Branding",
+        "cat": "Web design + Branding",
         "image": "site_digirock.png"
     }, {
         "title": "MBSATA",
-        "cat": "Webdesign / Branding",
+        "cat": "Webdesign + Branding",
         "url": "https://mbsata.com/",
         "image": "site_mbs.png",
         "color": "#F4F8FF"
@@ -38,5 +38,24 @@
         "cat": "Webdesign",
         "url": "https://www.episod.com/",
         "image": "Site_episod.png"
+    }, {
+        "title": "Love Corner",
+        "cat": "Branding",
+        "image": "Lovecorner.png",
+        "color": "#FFCBD2"
+    }, {
+        "title": "JVEB Studio",
+        "cat": "Web design + Branding",
+        "image": "JVEB.png",
+        "url": "https://www.jvebstudio.com/"
+    }, {
+        "title": "Neoness",
+        "cat": "Web design",
+        "image": "Neoness.png",
+        "url": "https://www.neoness.fr/"
+    }, {
+        "title": "TechAdvize",
+        "cat": "Web design + Branding",
+        "image": "TechAdvize.png"
     }]
 }

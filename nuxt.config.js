@@ -85,37 +85,31 @@ export default {
                 property: 'og:url',
                 content: 'https://www.lesindiens.fr/'
             },
-            // COMBAK: Update open graph meta image
             {
                 hid: 'og:image',
                 property: 'og:image',
-                content: '/images/MyBusinessOgImage.png'
+                content: '/share/og.png'
             },
-            // COMBAK: Update open graph meta image:width
             {
                 hid: 'og:image:width',
                 property: 'og:image:width',
-                content: '2000'
+                content: '1200'
             },
-            // COMBAK: Update open graph meta image:height
             {
                 hid: 'og:image:height',
                 property: 'og:image:height',
-                content: '1550'
+                content: '628'
             },
-            // COMBAK: Update open graph meta image:type
             {
                 hid: 'og:image:type',
                 property: 'og:image:type',
                 content: 'image/png'
             },
-            // COMBAK: Update open graph meta image:alt
             {
                 hid: 'og:image:alt',
                 property: 'og:image:alt',
-                content: 'My business og image alt'
+                content: 'On vous aime !'
             },
-            // COMBAK: Update open graph meta twitter:card
             {
                 hid: 'twitter:card',
                 name: 'twitter:card',
@@ -131,11 +125,10 @@ export default {
                 name: 'twitter:creator',
                 content: '@LesIndiens'
             },
-            // COMBAK: Update open graph meta twitter:image
             {
                 hid: 'twitter:image',
                 name: 'twitter:image',
-                content: '/images/MyBusinessOgImage.png'
+                content: '/share/twitter.png'
             },
             {
                 name: 'msapplication-TileColor',

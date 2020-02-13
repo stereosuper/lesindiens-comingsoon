@@ -6,8 +6,6 @@
             <Footer />
         </div>
         <GridSystem />
-        <HeartContainer />
-        <CustomCursor />
         <Svgs />
     </div>
 </template>
@@ -17,16 +15,13 @@ import Header from '~/components/Layout/Header';
 import Footer from '~/components/Layout/Footer';
 import Svgs from '~/components/Layout/Svgs';
 import GridSystem from '~/components/Layout/GridSystem';
-import HeartContainer from '~/components/Layout/HeartContainer';
-import CustomCursor from '~/components/Layout/CustomCursor';
+
 export default {
     components: {
         Header,
         Footer,
         Svgs,
-        GridSystem,
-        CustomCursor,
-        HeartContainer
+        GridSystem
     },
     computed: {
         allImages() {

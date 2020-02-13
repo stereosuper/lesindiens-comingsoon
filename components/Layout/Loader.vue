@@ -66,7 +66,7 @@ export default {
     transition: 0.5s ease-out;
     &.loading {
         opacity: 1;
-        transition: 0s ease-out;
+        // transition: 0s ease-out;
     }
 }
 </style>

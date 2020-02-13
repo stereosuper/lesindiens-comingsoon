@@ -1,12 +1,26 @@
 <template>
-    <div ref="image" class="sprite" :style="{ backgroundImage: `url(img/hand.png)` }"></div>
+    <div ref="image" class="sprite" :style="{ backgroundImage: `url(${url})` }"></div>
 </template>
 <script>
 import { gsap } from 'gsap';
 export default {
     props: {
+        autoplay: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
+        delay: {
+            type: Number,
+            required: false,
+            default: 0
+        },
         cols: {
             type: Number,
+            required: true
+        },
+        url: {
+            type: String,
             required: true
         },
         rows: {
@@ -44,7 +58,11 @@ export default {
             repeat: this.loop ? -1 : 0,
             onRepeat: this.checkShouldStop,
             onRepeatScope: this,
-            repeatDelay: 0.1
+            // repeatDelay: 0.1,
+            delay: this.delay,
+            onComplete: () => {
+                this.$emit('ended');
+            }
         });
 
         let count = 0;
@@ -61,7 +79,7 @@ export default {
                 count += 1;
             }
         }
-        this.play();
+        if (this.autoplay) this.play();
     },
     methods: {
         pause() {

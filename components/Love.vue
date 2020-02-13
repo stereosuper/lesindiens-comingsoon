@@ -12,7 +12,7 @@
                 <li><h2>Digital</h2></li>
             </ul>
             <Playlist v-if="isL" />
-            <Sprite :cols="15" :rows="1" :interval="0.08" :loop="true" />
+            <Sprite :cols="15" :rows="1" :interval="0.08" :loop="true" url="img/hand.png" />
         </div>
     </div>
 </template>

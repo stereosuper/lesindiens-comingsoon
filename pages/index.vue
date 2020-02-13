@@ -2,16 +2,22 @@
     <div class="page">
         <Love />
         <Slider />
+        <HeartContainer />
+        <CustomCursor />
     </div>
 </template>
 
 <script>
 import Love from '~/components/Love';
 import Slider from '~/components/Slider';
+import HeartContainer from '~/components/Layout/HeartContainer';
+import CustomCursor from '~/components/Layout/CustomCursor';
 export default {
     components: {
         Love,
-        Slider
+        Slider,
+        CustomCursor,
+        HeartContainer
     },
     async fetch({ app }) {
         const res = await app.$axios.get('/.netlify/functions/getPlaylist');

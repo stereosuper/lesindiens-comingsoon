@@ -376,13 +376,5 @@ a {
         right: 100px;
         width: calc(((100% - 180px) * 8 / 12) - 20px);
     }
-    .sprite-wrapper {
-        // width: percentage(7/8);
-    }
-}
-@media (min-width: $desktop-xxl) {
-    .sprite-wrapper {
-        // width: percentage(6/8);
-    }
 }
 </style>

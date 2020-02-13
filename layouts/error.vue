@@ -125,18 +125,6 @@ export default {
                 xOffset: [-5, 5],
                 yOffset: [10, 30]
             }
-            // {
-            //     yInitial: [15, 35],
-            //     xInitial: [20, 50],
-            //     xOffset: [-15, 15],
-            //     yOffset: [10, 50]
-            // },
-            // {
-            //     yInitial: [15, 35],
-            //     xInitial: [20, 50],
-            //     xOffset: [-15, 15],
-            //     yOffset: [10, 50]
-            // }
         ]
     }),
     computed: {

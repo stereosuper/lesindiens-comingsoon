@@ -17,9 +17,9 @@ export default {
         };
         console.log('im putting the event');
         // el.addEventListener('load', imageIsLoaded, false);
-        var img = new Image();
-        img.addEventListener('load', imageIsLoaded, false);
-        img.src = el.src;
-        el.src = img.src;
+        // var img = new Image();
+        el.addEventListener('load', imageIsLoaded, false);
+        // img.src = el.src;
+        // el.src = img.src;
     }
 };

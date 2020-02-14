@@ -3,59 +3,59 @@
         "title": "I.B.P.",
         "cat": "Web design",
         "url": "https://siteibp.azurewebsites.net/evenement/RapportAnnuel/index.html#/",
-        "image": "site_IBP.png"
+        "image": "site_IBP"
     }, {
         "title": "Les 48h de l'A.U.",
         "cat": "Web design",
         "url": "https://www.les48h.fr/",
-        "image": "site_48h.png"
+        "image": "site_48h"
     }, {
         "title": "winAutopilote",
         "cat": "Web design",
         "url": "http://www.winpharma.com/winautopilote/",
-        "image": "Site_Winpharma.png",
+        "image": "Site_Winpharma",
         "color": "#EAEAF5"
     }, {
         "title": "Digirocks",
         "cat": "Web design + Branding",
-        "image": "site_digirock.png"
+        "image": "site_digirock"
     }, {
         "title": "MBSATA",
         "cat": "Webdesign + Branding",
         "url": "https://mbsata.com/",
-        "image": "site_mbs.png",
+        "image": "site_mbs",
         "color": "#F4F8FF"
     }, {
         "title": "Yoyo",
         "cat": "Webdesign",
-        "image": "site_yoyo.png"
+        "image": "site_yoyo"
     }, {
         "title": "Beekast",
         "cat": "Branding",
-        "image": "IV_beekast.png"
+        "image": "IV_beekast"
     }, {
         "title": "Episod",
         "cat": "Webdesign",
         "url": "https://www.episod.com/",
-        "image": "Site_episod.png"
+        "image": "Site_episod"
     }, {
         "title": "Love Corner",
         "cat": "Branding",
-        "image": "Lovecorner.png",
+        "image": "Lovecorner",
         "color": "#FFCBD2"
     }, {
         "title": "JVEB Studio",
         "cat": "Web design + Branding",
-        "image": "JVEB.png",
+        "image": "JVEB",
         "url": "https://www.jvebstudio.com/"
     }, {
         "title": "Neoness",
         "cat": "Web design",
-        "image": "Neoness.png",
+        "image": "Neoness",
         "url": "https://www.neoness.fr/"
     }, {
         "title": "TechAdvize",
         "cat": "Web design + Branding",
-        "image": "TechAdvize.png"
+        "image": "TechAdvize"
     }]
 }

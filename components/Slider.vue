@@ -20,7 +20,8 @@
                     v-if="!objectFitFallback"
                     v-imageLoaded
                     class="js-image-inner"
-                    :src="`slides/${s.image}`"
+                    :srcset="getSrcSet(s.image)"
+                    :sizes="getSizesAttr()"
                     :alt="s.title"
                 />
                 <span
@@ -69,7 +70,8 @@ export default {
         totalNumber: 0,
         transitionning: false,
         autoPlayTimeout: null,
-        objectFitFallback: false
+        objectFitFallback: false,
+        imagesSizes: [580, 1630]
     }),
     computed: {
         isL() {
@@ -121,6 +123,16 @@ export default {
         this.initSlider();
     },
     methods: {
+        getSrc(imageName) {
+            const size = this.imagesSizes[this.imagesSizes.length - 1];
+            return `slides/${imageName}@${size}.png`;
+        },
+        getSrcSet(imageName) {
+            return this.imagesSizes.map(size => `slides/${imageName}@${size}.png ${size}w`).join(', ');
+        },
+        getSizesAttr() {
+            return this.imagesSizes.map(size => `(max-width: ${size}px) ${size}px`).join(', ');
+        },
         clickCursor(d) {
             if (!this.isL) return;
             this.changeSlide(d);

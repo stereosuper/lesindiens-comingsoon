@@ -71,7 +71,7 @@ export default {
         transitionning: false,
         autoPlayTimeout: null,
         objectFitFallback: false,
-        imagesSizes: [580, 1630]
+        imagesSizes: [580, 780, 960, 1630]
     }),
     computed: {
         isL() {
@@ -125,10 +125,10 @@ export default {
     methods: {
         getSrc(imageName) {
             const size = this.imagesSizes[this.imagesSizes.length - 1];
-            return `slides/${imageName}@${size}.png`;
+            return `slides/${size}/${imageName}`;
         },
         getSrcSet(imageName) {
-            return this.imagesSizes.map(size => `slides/${imageName}@${size}.png ${size}w`).join(', ');
+            return this.imagesSizes.map(size => `slides/${size}/${imageName} ${size}w`).join(', ');
         },
         getSizesAttr() {
             return this.imagesSizes.map(size => `(max-width: ${size}px) ${size}px`).join(', ');

@@ -3,59 +3,59 @@
         "title": "I.B.P.",
         "cat": "Web design",
         "url": "https://siteibp.azurewebsites.net/evenement/RapportAnnuel/index.html#/",
-        "image": "site_IBP"
+        "image": "IBP.jpg"
     }, {
         "title": "Les 48h de l'A.U.",
         "cat": "Web design",
         "url": "https://www.les48h.fr/",
-        "image": "site_48h"
+        "image": "48h.jpg"
     }, {
         "title": "winAutopilote",
         "cat": "Web design",
         "url": "http://www.winpharma.com/winautopilote/",
-        "image": "Site_Winpharma",
+        "image": "Winpharma.png",
         "color": "#EAEAF5"
     }, {
         "title": "Digirocks",
         "cat": "Web design + Branding",
-        "image": "site_digirock"
+        "image": "Digirock.jpg"
     }, {
         "title": "MBSATA",
         "cat": "Webdesign + Branding",
         "url": "https://mbsata.com/",
-        "image": "site_mbs",
+        "image": "MBSATA.png",
         "color": "#F4F8FF"
     }, {
         "title": "Yoyo",
         "cat": "Webdesign",
-        "image": "site_yoyo"
+        "image": "Yoyo.jpg"
     }, {
         "title": "Beekast",
         "cat": "Branding",
-        "image": "IV_beekast"
+        "image": "Beekast.jpg"
     }, {
         "title": "Episod",
         "cat": "Webdesign",
         "url": "https://www.episod.com/",
-        "image": "Site_episod"
+        "image": "Episod.jpg"
     }, {
         "title": "Love Corner",
         "cat": "Branding",
-        "image": "Lovecorner",
+        "image": "Lovecorner.png",
         "color": "#FFCBD2"
     }, {
         "title": "JVEB Studio",
         "cat": "Web design + Branding",
-        "image": "JVEB",
+        "image": "JVEB.jpg",
         "url": "https://www.jvebstudio.com/"
     }, {
         "title": "Neoness",
         "cat": "Web design",
-        "image": "Neoness",
+        "image": "Neoness.jpg",
         "url": "https://www.neoness.fr/"
     }, {
         "title": "TechAdvize",
         "cat": "Web design + Branding",
-        "image": "TechAdvize"
+        "image": "TechAdvize.jpg"
     }]
 }

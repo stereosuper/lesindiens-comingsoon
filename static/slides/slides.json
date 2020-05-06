@@ -1,61 +1,158 @@
 {
     "slides": [{
+        "id": "I.B.P.",
         "title": "I.B.P.",
         "cat": "Web design",
         "url": "https://siteibp.azurewebsites.net/evenement/RapportAnnuel/index.html#/",
         "image": "IBP.jpg"
     }, {
+        "id": "Les 48h de l'A.U.",
         "title": "Les 48h de l'A.U.",
         "cat": "Web design",
         "url": "https://www.les48h.fr/",
         "image": "48h.jpg"
     }, {
+        "id": "winAutopilote",
         "title": "winAutopilote",
         "cat": "Web design",
         "url": "http://www.winpharma.com/winautopilote/",
         "image": "Winpharma.png",
         "color": "#EAEAF5"
     }, {
+        "id": "Digirocks",
         "title": "Digirocks",
         "cat": "Web design + Branding",
         "image": "Digirock.jpg"
+    },{
+        "id": "Digirocks-2",
+        "title": "Digirocks",
+        "cat": "Web design + Branding",
+        "image": "Digirock-2.png",
+        "color": "#27357F"
     }, {
+        "id": "MBSATA",
         "title": "MBSATA",
         "cat": "Webdesign + Branding",
         "url": "https://mbsata.com/",
         "image": "MBSATA.png",
         "color": "#F4F8FF"
+    },{
+        "id": "MBSATA-2",
+        "title": "MBSATA",
+        "cat": "Webdesign + Branding",
+        "url": "https://mbsata.com/",
+        "image": "MBSATA-2.png"
     }, {
+        "id": "Yoyo",
         "title": "Yoyo",
         "cat": "Webdesign",
         "image": "Yoyo.jpg"
     }, {
+        "id": "Beekast",
         "title": "Beekast",
-        "cat": "Branding",
+        "cat": "Webdesign + Branding",
+        "url": "https://www.beekast.com/fr/",
         "image": "Beekast.jpg"
+    },{
+        "id": "Beekast-2",
+        "title": "Beekast",
+        "cat": "Webdesign + Branding",
+        "url": "https://www.beekast.com/fr/",
+        "image": "Beekast-2.png",
+        "color": "#FFEFDC"
+    },{
+        "id": "Beekast-3",
+        "title": "Beekast",
+        "cat": "Webdesign + Branding",
+        "url": "https://www.beekast.com/fr/",
+        "image": "Beekast-3.png"
     }, {
+        "id": "Episod",
         "title": "Episod",
         "cat": "Webdesign",
         "url": "https://www.episod.com/",
         "image": "Episod.jpg"
+    },{
+        "id": "Episod-2",
+        "title": "Episod",
+        "cat": "Webdesign",
+        "url": "https://www.episod.com/",
+        "image": "Episod-2.png"
     }, {
+        "id": "Love Corner",
         "title": "Love Corner",
         "cat": "Branding",
         "image": "Lovecorner.png",
         "color": "#FFCBD2"
+    },{
+        "id": "Love Corner-2",
+        "title": "Love Corner",
+        "cat": "Branding",
+        "image": "Lovecorner-2.png",
+        "color": "#FDC941"
     }, {
+        "id": "JVEB Studio",
         "title": "JVEB Studio",
         "cat": "Web design + Branding",
         "image": "JVEB.jpg",
         "url": "https://www.jvebstudio.com/"
     }, {
+        "id": "JVEB Studio-2",
+        "title": "JVEB Studio",
+        "cat": "Web design + Branding",
+        "image": "JVEB-2.png",
+        "url": "https://www.jvebstudio.com/"
+    }, {
+        "id": "JVEB Studio-3",
+        "title": "JVEB Studio",
+        "cat": "Web design + Branding",
+        "image": "JVEB-3.png",
+        "url": "https://www.jvebstudio.com/"
+    },{
+        "id": "Neoness",
         "title": "Neoness",
         "cat": "Web design",
         "image": "Neoness.jpg",
         "url": "https://www.neoness.fr/"
     }, {
+        "id": "TechAdvize",
         "title": "TechAdvize",
         "cat": "Web design + Branding",
         "image": "TechAdvize.jpg"
+    }, {
+        "id": "Verona",
+        "title": "Verona",
+        "cat": "Web design + Branding",
+        "image": "verona.png",
+        "url": "http://www.groupe-verona.com/",
+        "color": "#5512D1"
+    }, {
+        "id": "Verona-2",
+        "title": "Verona",
+        "cat": "Web design + Branding",
+        "image": "verona-2.png",
+        "url": "http://www.groupe-verona.com/"
+    }, {
+        "id": "Lunette de Louisette",
+        "title": "Lunette de Louisette",
+        "cat": "Branding",
+        "image": "lunettes-de-louisette.png",
+        "color": "#FFFFFF"
+    }, {
+        "id": "Lunette de Louisette-2",
+        "title": "Lunette de Louisette",
+        "cat": "Branding",
+        "image": "lunettes-de-louisette-2.png"
+    }, {
+        "id": "Glose",
+        "title": "Glose",
+        "cat": "Branding",
+        "image": "Glose.png",
+        "color": "#283F69"
+    }, {
+        "id": "Glose-2",
+        "title": "Glose",
+        "cat": "Branding",
+        "image": "Glose-2.png"
     }]
 }

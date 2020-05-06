@@ -7,6 +7,9 @@
             <a target="_blank" rel="noopener nofollower" href="https://dribbble.com/lesindiens">
                 Dribbble
             </a>
+            <a target="_blank" rel="noopener nofollower" href="https://trustfolio.co/profil/les-indiens-GM1RnahBov">
+                Trustfolio
+            </a>
         </div>
         <a target="_blank" rel="noopener nofollower" href="mailto:hello@lesindiens.fr">hello@lesindiens.fr</a>
         <div class="contact">
@@ -44,7 +47,7 @@ a {
     }
     a {
         margin-bottom: 0;
-        margin-right: 30px;
+        margin-right: 15px;
     }
     .contact {
         a {

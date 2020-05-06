@@ -11,7 +11,7 @@
             <div
                 v-for="s in slides"
                 ref="image"
-                :key="s.title"
+                :key="s.id"
                 class="image"
                 :class="{ center: s.color }"
                 :style="{ backgroundColor: s.color }"
@@ -71,15 +71,13 @@ export default {
         transitionning: false,
         autoPlayTimeout: null,
         objectFitFallback: false,
-        imagesSizes: [580, 780, 960, 1630]
+        imagesSizes: [580, 780, 960, 1630],
+        slides: []
     }),
     computed: {
         isL() {
             if (!this.$store.state.superWindow) return false;
             return this.$store.state.superWindow.width >= this.$breakpoints.list.l;
-        },
-        slides() {
-            return this.$store.state.slides;
         },
         resizing() {
             if (!this.$store.state.superWindow) return false;
@@ -115,6 +113,7 @@ export default {
         }
     },
     created() {
+        this.slides = this.$store.getters.getSlides;
         this.totalNumber = this.slides.length - 1;
     },
     mounted() {

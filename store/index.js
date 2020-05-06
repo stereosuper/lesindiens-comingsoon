@@ -27,6 +27,9 @@ export const getters = {
                   }, [])
                   .sort(() => Math.random() - 0.5)
             : null;
+    },
+    getSlides: state => {
+        return state.slides.slice(0).sort(() => Math.random() - 0.5);
     }
 };
 

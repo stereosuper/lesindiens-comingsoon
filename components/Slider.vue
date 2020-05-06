@@ -33,7 +33,13 @@
         </div>
         <div class="nav">
             <div ref="nav" class="inner-nav">
-                <a v-if="slides[current].url" :href="slides[current].url" class="wrapper-infos">
+                <a
+                    v-if="slides[current].url"
+                    :href="slides[current].url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="wrapper-infos"
+                >
                     <span class="category">{{ slides[current].cat }}</span>
                     <div class="infos">
                         <span class="name">{{ slides[current].title }}</span>

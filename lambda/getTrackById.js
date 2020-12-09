@@ -14,16 +14,16 @@ exports.handler = async function(event, context, callback) {
     });
 
     const token = data.access_token;
+    const id = JSON.parse(event.body).id;
 
     try {
-        const playlist = await axios.get('https://api.spotify.com/v1/playlists/1lMang7eAN5NJs2qoq8bYk/tracks', {
+        const { data } = await axios.get(`https://api.spotify.com/v1/tracks/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
         const response = {
-            token,
-            playlist: playlist.data
+            track: data
         };
 
         callback(null, {

@@ -17,7 +17,7 @@ import robotsOptions from './config/robots';
  */
 const netlifyEnv = process.env.NODE_ENV;
 const isDevEnv = netlifyEnv === 'development';
-const websiteUrl = process.env.URL || `http://${process.env.HOST}:${process.env.PORT}`;
+const websiteUrl = process.env.DEPLOY_PRIME_URL || `http://${process.env.HOST}:${process.env.PORT}`;
 
 const features = ['Array.prototype.indexOf', 'Promise'].join('%2C');
 
@@ -198,7 +198,7 @@ export default {
      ** SEE: https://axios.nuxtjs.org/options
      */
     axios: {
-        baseURL: process.env.URL || 'http://localhost:3000'
+        baseURL: process.env.DEPLOY_PRIME_URL || 'http://localhost:3000'
     },
     /*
      ** Nuxt Style Resources module configuration

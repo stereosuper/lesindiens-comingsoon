@@ -24,7 +24,7 @@
     "@stereorepo/sac": "^3.1.2",
     "axios": "^0.19.2",
     "fastdom": "^1.0.9",
-    "gsap": "^3.1.1",
+    "gsap": "^3.6.0",
     "netlify-lambda": "^1.6.3",
     "nuxt": "^2.11.0",
     "sharp": "^0.23.0"

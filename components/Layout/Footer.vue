@@ -13,10 +13,10 @@
         </div>
         <a target="_blank" rel="noopener nofollower" href="mailto:hello@lesindiens.fr">hello@lesindiens.fr</a>
         <div class="contact">
-            <a target="_blank" rel="noopener nofollower" href="telto:0285526962">02 85 52 69 62 </a>
+            <a target="_blank" rel="noopener nofollower" href="telto:0780975135">07 80 97 51 35 </a>
             <span class="point">•</span>
-            <a target="_blank" rel="noopener nofollower" href="https://goo.gl/maps/t3qxQYgVFbBw8Ytw9">
-                11, impasse Juton 44000 Nantes
+            <a target="_blank" rel="noopener nofollower" href="https://goo.gl/maps/rKycM5jPCM2umRGe6">
+                4, rue Voltaire — 44000 Nantes
             </a>
         </div>
     </footer>
